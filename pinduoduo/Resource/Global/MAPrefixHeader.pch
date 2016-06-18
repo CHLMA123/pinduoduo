@@ -14,6 +14,7 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "UIImage+Color.h"
 #endif
 
 //1 去除release的NSLog

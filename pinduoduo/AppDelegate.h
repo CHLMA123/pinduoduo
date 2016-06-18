@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "BaseTabBarController.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong)BaseTabBarController *rootViewController;
+
+
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -19,6 +24,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
++ (instancetype)appDelegate;
 
 
 @end

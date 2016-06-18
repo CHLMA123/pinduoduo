@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface BaseTabBarController : UITabBarController
+
+@property (nonatomic, getter=isTabBarHidden,readonly)BOOL tabBarHidden;
+
+- (void)setTabBarHidden:(BOOL)hidden animated:(BOOL)animated;
 
 @end
