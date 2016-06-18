@@ -14,65 +14,16 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "UIImage+Color.h"
-#endif
-
-//1 去除release的NSLog
-#ifndef __OPTIMIZE__
-#define NSLog(...) NSLog(__VA_ARGS__)
-#else
-#define NSLog(...) {}
-#endif
-
-//2 Constants
 #import "MAMacro.h"
 #import "AppDelegate.h"
+#import "AssistantTool.h"
 
-//3 日志宏，用DEBUG开关管理，只有在DEBUG模式下才让日志输出
-#ifdef DEBUG
-    #define LOG(fmt, ...) do {                                                  \
-    NSString* file = [[NSString alloc] initWithFormat:@"%s", __FILE__];         \
-    NSLog((@"%@(%d) " fmt), [file lastPathComponent], __LINE__, ##__VA_ARGS__); \
-    [file release];                                                             \
-    } while(0)
-    #define LOG_METHOD NSLog(@"%@/%@", NSStringFromClass([self class]), NSStringFromSelector(_cmd))
-    #define COUNT(p) NSLog(@"%s(%d): count = %d\n", __func__, __LINE__, [p retainCount]);
-    #define LOG_TRACE(x) do {printf x; putchar('\n'); fflush(stdout);} while (0)
-# else
-    #define LOG(...)
-    #define LOG_METHOD
-    #define COUNT(p)
-    #define LOG_TRACE(x)
+#import "UIImage+Color.h"
+
+#import "JSONKit.h"
+#import "Masonry.h"
+
 #endif
-
-//4 计算方法耗时时间间隔
-#define TICK   CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-#define TOCK   NSLog(@"{%@/%@}^{Time_Consuming: %f}", NSStringFromClass([self class]), NSStringFromSelector(_cmd), CFAbsoluteTimeGetCurrent() - start);
-
-//5 区分真机模拟器的时候务必用TARGET_IPHONE_SIMULATOR来判断
-/*
- TARGET_IPHONE_SIMULATOR和TARGET_OS_IPHONE 是苹果的两个宏定义，
- 在真机sdk中位于ios->usr/include/targetconditionals.h中，
- 在模拟器sdk中位于simulator->usr/include/targetconditionals.h中
- 
- 模拟器sdk中的定义：
- #define TARGET_OS_IPHONE            1
- #define TARGET_IPHONE_SIMULATOR     1
- 
- 真机sdk中的定义：
- 
- #define TARGET_OS_IPHONE            1
- #define TARGET_IPHONE_SIMULATOR     0
- */
-#if TARGET_IPHONE_SIMULATOR//模拟器
-#define SIMULATOR 1
-#elif TARGET_OS_IPHONE//真机
-#define SIMULATOR 0
-#endif
-
-
-
-
 
 
 #endif /* MAPrefixHeader_pch */

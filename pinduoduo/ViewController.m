@@ -17,6 +17,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    /*
+     NSString * contents =[[NSString alloc]initWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:nil];
+     
+     NSArray * array =[contents objectFromJSONString];
+     NSLog(@"%@",array);
+     for (NSDictionary * dic in array) {
+    
+     }
+
+     */
 }
 
 - (void)didReceiveMemoryWarning {
