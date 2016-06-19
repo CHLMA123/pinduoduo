@@ -7,7 +7,8 @@
 //
 
 #import "HomeViewController.h"
-#import "ViewController.h"
+#import "NetworkHelper.h"
+
 @interface HomeViewController ()
 
 @end
@@ -17,19 +18,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(pushAction)];
-    [self.view addGestureRecognizer:singleTap];
-}
-
-- (void)pushAction{
-    ViewController *vc = [[ViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self getSubjectData];
+    [self getGoodListData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)getSubjectData{
+    NSString *urlSubject = @"http://apiv2.yangkeduo.com/subjects";
+    [[NetworkHelper sharedManager] getWithURL:urlSubject WithParmeters:nil compeletionWithBlock:^(NSDictionary *dic) {
+        
+        NSLog(@"---getSubjectData--- dic = %@",dic);
+    }];
+}
+- (void)getGoodListData{
+    NSString *urlGoods = @"http://apiv2.yangkeduo.com/v2/goods?";
+    NSDictionary *dic = @{@"size":@"50", @"page":@"1"};
+    [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(NSDictionary *dic) {
+        
+        NSLog(@"---getGoodListData--- dic = %@",dic);
+    }];
+}
+
 
 /*
 #pragma mark - Navigation

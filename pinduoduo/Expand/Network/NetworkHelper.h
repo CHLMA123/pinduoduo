@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^NetworkHelperBlock)(NSDictionary *dic);
+
 @interface NetworkHelper : NSObject
+
+//@property (nonatomic, strong)NetworkHelperBlock block;
+
++ (instancetype)sharedManager;
+
+- (void)networkReaching;
+
+- (void)getWithURL:(NSString *)urlString WithParmeters:(NSDictionary *)dictionary compeletionWithBlock:(NetworkHelperBlock)block;
+
+- (void)postWithURL:(NSString *)urlString WithParameters:(NSDictionary *)dictionary compeletionWithBlock:(NetworkHelperBlock)block;
 
 @end
