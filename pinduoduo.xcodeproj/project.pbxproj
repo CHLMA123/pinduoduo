@@ -23,13 +23,6 @@
 		366C46E31D13DF8A00BE790E /* UIImage+XHRounded.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45F01D13DF8A00BE790E /* UIImage+XHRounded.m */; };
 		366C46E41D13DF8A00BE790E /* UILabel+Paragraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45F31D13DF8A00BE790E /* UILabel+Paragraph.m */; };
 		366C46E61D13DF8A00BE790E /* UIView+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45F91D13DF8A00BE790E /* UIView+Convenience.m */; };
-		366C46E71D13DF8A00BE790E /* FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C46011D13DF8A00BE790E /* FCUUID.m */; };
-		366C46E81D13DF8A00BE790E /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C46031D13DF8A00BE790E /* UICKeyChainStore.m */; };
-		366C46E91D13DF8A00BE790E /* UIDevice+FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C46051D13DF8A00BE790E /* UIDevice+FCUUID.m */; };
-		366C46EA1D13DF8A00BE790E /* CLLocation+MPLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C46091D13DF8A00BE790E /* CLLocation+MPLocation.m */; };
-		366C46EB1D13DF8A00BE790E /* imageCompressHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C460D1D13DF8A00BE790E /* imageCompressHelper.m */; };
-		366C46EC1D13DF8A00BE790E /* UITapImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C460F1D13DF8A00BE790E /* UITapImageView.m */; };
-		366C46ED1D13DF8A00BE790E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C46121D13DF8A00BE790E /* Reachability.m */; };
 		366C46EE1D13DF8A00BE790E /* add_favor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C461D1D13DF8A00BE790E /* add_favor@2x.png */; };
 		366C46EF1D13DF8A00BE790E /* add_favor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C461E1D13DF8A00BE790E /* add_favor@3x.png */; };
 		366C46F01D13DF8A00BE790E /* add_favor_clicked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C461F1D13DF8A00BE790E /* add_favor_clicked@2x.png */; };
@@ -245,20 +238,6 @@
 		366C45F91D13DF8A00BE790E /* UIView+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Convenience.m"; sourceTree = "<group>"; };
 		366C45FB1D13DF8A00BE790E /* MAMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMacro.h; sourceTree = "<group>"; };
 		366C45FC1D13DF8A00BE790E /* ThirdMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdMacros.h; sourceTree = "<group>"; };
-		366C46001D13DF8A00BE790E /* FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCUUID.h; sourceTree = "<group>"; };
-		366C46011D13DF8A00BE790E /* FCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCUUID.m; sourceTree = "<group>"; };
-		366C46021D13DF8A00BE790E /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
-		366C46031D13DF8A00BE790E /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
-		366C46041D13DF8A00BE790E /* UIDevice+FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+FCUUID.h"; sourceTree = "<group>"; };
-		366C46051D13DF8A00BE790E /* UIDevice+FCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+FCUUID.m"; sourceTree = "<group>"; };
-		366C46081D13DF8A00BE790E /* CLLocation+MPLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+MPLocation.h"; sourceTree = "<group>"; };
-		366C46091D13DF8A00BE790E /* CLLocation+MPLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+MPLocation.m"; sourceTree = "<group>"; };
-		366C460C1D13DF8A00BE790E /* imageCompressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageCompressHelper.h; sourceTree = "<group>"; };
-		366C460D1D13DF8A00BE790E /* imageCompressHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageCompressHelper.m; sourceTree = "<group>"; };
-		366C460E1D13DF8A00BE790E /* UITapImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITapImageView.h; sourceTree = "<group>"; };
-		366C460F1D13DF8A00BE790E /* UITapImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITapImageView.m; sourceTree = "<group>"; };
-		366C46111D13DF8A00BE790E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		366C46121D13DF8A00BE790E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		366C461B1D13DF8A00BE790E /* MAPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAPrefixHeader.pch; path = Resource/Global/MAPrefixHeader.pch; sourceTree = "<group>"; };
 		366C461D1D13DF8A00BE790E /* add_favor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_favor@2x.png"; sourceTree = "<group>"; };
 		366C461E1D13DF8A00BE790E /* add_favor@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_favor@3x.png"; sourceTree = "<group>"; };
@@ -632,78 +611,8 @@
 		366C45FE1D13DF8A00BE790E /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				366C45FF1D13DF8A00BE790E /* FCUUID */,
-				366C46061D13DF8A00BE790E /* JSPatchHelper */,
-				366C46071D13DF8A00BE790E /* LcationManager */,
-				366C460A1D13DF8A00BE790E /* Logger */,
-				366C460B1D13DF8A00BE790E /* OtherHelper */,
-				366C46101D13DF8A00BE790E /* Reachability */,
-				366C46131D13DF8A00BE790E /* UmengHelper */,
 			);
 			path = Tool;
-			sourceTree = "<group>";
-		};
-		366C45FF1D13DF8A00BE790E /* FCUUID */ = {
-			isa = PBXGroup;
-			children = (
-				366C46001D13DF8A00BE790E /* FCUUID.h */,
-				366C46011D13DF8A00BE790E /* FCUUID.m */,
-				366C46021D13DF8A00BE790E /* UICKeyChainStore.h */,
-				366C46031D13DF8A00BE790E /* UICKeyChainStore.m */,
-				366C46041D13DF8A00BE790E /* UIDevice+FCUUID.h */,
-				366C46051D13DF8A00BE790E /* UIDevice+FCUUID.m */,
-			);
-			path = FCUUID;
-			sourceTree = "<group>";
-		};
-		366C46061D13DF8A00BE790E /* JSPatchHelper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = JSPatchHelper;
-			sourceTree = "<group>";
-		};
-		366C46071D13DF8A00BE790E /* LcationManager */ = {
-			isa = PBXGroup;
-			children = (
-				366C46081D13DF8A00BE790E /* CLLocation+MPLocation.h */,
-				366C46091D13DF8A00BE790E /* CLLocation+MPLocation.m */,
-			);
-			path = LcationManager;
-			sourceTree = "<group>";
-		};
-		366C460A1D13DF8A00BE790E /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
-		366C460B1D13DF8A00BE790E /* OtherHelper */ = {
-			isa = PBXGroup;
-			children = (
-				366C460C1D13DF8A00BE790E /* imageCompressHelper.h */,
-				366C460D1D13DF8A00BE790E /* imageCompressHelper.m */,
-				366C460E1D13DF8A00BE790E /* UITapImageView.h */,
-				366C460F1D13DF8A00BE790E /* UITapImageView.m */,
-			);
-			path = OtherHelper;
-			sourceTree = "<group>";
-		};
-		366C46101D13DF8A00BE790E /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				366C46111D13DF8A00BE790E /* Reachability.h */,
-				366C46121D13DF8A00BE790E /* Reachability.m */,
-			);
-			path = Reachability;
-			sourceTree = "<group>";
-		};
-		366C46131D13DF8A00BE790E /* UmengHelper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UmengHelper;
 			sourceTree = "<group>";
 		};
 		366C46141D13DF8A00BE790E /* Main */ = {
@@ -1373,13 +1282,10 @@
 				366C47931D13DF8A00BE790E /* NSArray+MASAdditions.m in Sources */,
 				366C45C61D13DA3300BE790E /* ViewController.m in Sources */,
 				366C46DF1D13DF8A00BE790E /* UIImage+Alpha.m in Sources */,
-				366C46E71D13DF8A00BE790E /* FCUUID.m in Sources */,
 				366C46DC1D13DF8A00BE790E /* BaseViewController.m in Sources */,
-				366C46EC1D13DF8A00BE790E /* UITapImageView.m in Sources */,
 				36B184211D14E457004D8382 /* SuperBrandViewController.m in Sources */,
 				36B1841B1D14E42E004D8382 /* PersonalViewController.m in Sources */,
 				366C46E21D13DF8A00BE790E /* UIImage+Utility.m in Sources */,
-				366C46EB1D13DF8A00BE790E /* imageCompressHelper.m in Sources */,
 				36B1842D1D152E0F004D8382 /* UIImage+Color.m in Sources */,
 				366C45CC1D13DA3300BE790E /* pinduoduo.xcdatamodeld in Sources */,
 				366C46E11D13DF8A00BE790E /* UIImage+RoundedCorner.m in Sources */,
@@ -1398,14 +1304,10 @@
 				366C45C01D13DA3300BE790E /* main.m in Sources */,
 				366C46DB1D13DF8A00BE790E /* BaseNavigationController.m in Sources */,
 				366C47941D13DF8A00BE790E /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
-				366C46ED1D13DF8A00BE790E /* Reachability.m in Sources */,
 				366C478B1D13DF8A00BE790E /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
-				366C46EA1D13DF8A00BE790E /* CLLocation+MPLocation.m in Sources */,
-				366C46E91D13DF8A00BE790E /* UIDevice+FCUUID.m in Sources */,
 				366C47901D13DF8A00BE790E /* MASLayoutConstraint.m in Sources */,
 				366C46E01D13DF8A00BE790E /* UIImage+Resize.m in Sources */,
 				366C47961D13DF8A00BE790E /* ViewController+MASAdditions.m in Sources */,
-				366C46E81D13DF8A00BE790E /* UICKeyChainStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
