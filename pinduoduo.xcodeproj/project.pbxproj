@@ -197,6 +197,7 @@
 		366C47B41D14008F00BE790E /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47AF1D14008F00BE790E /* search.png */; };
 		366C47B61D14008F00BE790E /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B11D14008F00BE790E /* person.png */; };
 		366C47B71D14008F00BE790E /* SuperBrand.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B21D14008F00BE790E /* SuperBrand.png */; };
+		369B49481D1653B7001DAB9E /* NetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 369B49471D1653B7001DAB9E /* NetworkHelper.m */; };
 		36B184151D14E407004D8382 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B184141D14E407004D8382 /* HomeViewController.m */; };
 		36B184181D14E41C004D8382 /* HotListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B184171D14E41C004D8382 /* HotListViewController.m */; };
 		36B1841B1D14E42E004D8382 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B1841A1D14E42E004D8382 /* PersonalViewController.m */; };
@@ -430,6 +431,8 @@
 		366C47AF1D14008F00BE790E /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		366C47B11D14008F00BE790E /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		366C47B21D14008F00BE790E /* SuperBrand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SuperBrand.png; sourceTree = "<group>"; };
+		369B49461D1653B7001DAB9E /* NetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkHelper.h; sourceTree = "<group>"; };
+		369B49471D1653B7001DAB9E /* NetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkHelper.m; sourceTree = "<group>"; };
 		36B184131D14E407004D8382 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		36B184141D14E407004D8382 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		36B184161D14E41C004D8382 /* HotListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotListViewController.h; sourceTree = "<group>"; };
@@ -604,6 +607,8 @@
 		366C45FD1D13DF8A00BE790E /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				369B49461D1653B7001DAB9E /* NetworkHelper.h */,
+				369B49471D1653B7001DAB9E /* NetworkHelper.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1288,6 +1293,7 @@
 				366C46E21D13DF8A00BE790E /* UIImage+Utility.m in Sources */,
 				36B1842D1D152E0F004D8382 /* UIImage+Color.m in Sources */,
 				366C45CC1D13DA3300BE790E /* pinduoduo.xcdatamodeld in Sources */,
+				369B49481D1653B7001DAB9E /* NetworkHelper.m in Sources */,
 				366C46E11D13DF8A00BE790E /* UIImage+RoundedCorner.m in Sources */,
 				366C46E31D13DF8A00BE790E /* UIImage+XHRounded.m in Sources */,
 				366C478E1D13DF8A00BE790E /* MASConstraint.m in Sources */,
