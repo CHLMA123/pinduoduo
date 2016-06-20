@@ -6,8 +6,8 @@
 //  Copyright © 2016年 CHLMA. All rights reserved.
 //
 
-#import "GoodsSubjectDataModel.h"
+#import "GoodsSubjectModel.h"
 
-@implementation GoodsSubjectDataModel
+@implementation GoodsSubjectModel
 
 @end

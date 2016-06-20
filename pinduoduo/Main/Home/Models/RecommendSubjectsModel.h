@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GoodsSubjectDataModel.h"
+#import "GoodsSubjectModel.h"
 #import "GoodsListDataModel.h"
 
 
 @interface RecommendSubjectsModel : NSObject
 
-@property (nonatomic, strong)GoodsSubjectDataModel *goodSubjectModel;
+@property (nonatomic, strong)GoodsSubjectModel *goodSubjectModel;
 @property (nonatomic, strong)GoodsListDataModel *goodListModel;
 
 @end

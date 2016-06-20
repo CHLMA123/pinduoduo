@@ -7,9 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "AFNetworking.h"
-
-
+#import "NetworkHelper.h"
 
 @interface AppDelegate ()
 
@@ -28,6 +26,10 @@
     self.window.rootViewController = _rootViewController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    //监测网络
+    [[NetworkHelper sharedManager] networkReaching];
+    
     return YES;
 }
 

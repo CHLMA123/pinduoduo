@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^NetworkHelperBlock)(NSDictionary *dic);
+typedef void(^NetworkHelperBlock)(id obj);
 
 @interface NetworkHelper : NSObject
 

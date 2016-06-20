@@ -8,10 +8,12 @@
 
 #import "NetworkHelper.h"
 #import "AFNetworking.h"
+#import "JSONKit.h"
 
 @interface NetworkHelper ()
 
 @property (nonatomic, strong)AFHTTPSessionManager *manger;
+@property (nonatomic, strong)NSString *netStatus;
 
 @end
 
@@ -23,6 +25,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         networkHelper = [[self alloc] init];
+
     });
     
     return networkHelper;
@@ -32,6 +35,7 @@
     self = [super init];
     if (self) {
         self.manger = [AFHTTPSessionManager manager];
+        self.netStatus = [NSString string];
 //        self.manger.responseSerializer = [AFJSONResponseSerializer serializer];
 //        self.manger.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", nil];
     }
@@ -39,9 +43,31 @@
 }
 
 - (void)networkReaching{
+    /*
+     AFNetworkReachabilityStatusUnknown          = -1,
+     AFNetworkReachabilityStatusNotReachable     = 0,
+     AFNetworkReachabilityStatusReachableViaWWAN = 1,
+     AFNetworkReachabilityStatusReachableViaWiFi = 2,
+     */
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[AFNetworkReachabilityManager sharedManager]setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"当前网络状态 = %ld",(long)status);
+        switch (status) {
+            case -1:
+                self.netStatus = @"Unknown";
+                break;
+            case 0:
+                self.netStatus = @"NotReachable";
+                break;
+            case 1:
+                self.netStatus = @"WWAN";
+                break;
+            case 2:
+                self.netStatus = @"WiFi";
+                break;
+            default:
+                break;
+        }
+        NSLog(@"当前网络状态 = %@",self.netStatus);
     }];
 }
 
@@ -51,8 +77,9 @@
     [self.manger GET:url.absoluteString parameters:dictionary progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dic = (NSDictionary *)responseObject;
-        BLOCK_EXEC(block,dic);
+        
+        NSArray *retArr = (NSArray *)responseObject;
+        BLOCK_EXEC(block,retArr);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error:%@", error.description);

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GoodsSubjectDataModel : NSObject
+@interface GoodsSubjectModel : NSObject
 
 #pragma BasicItems - ScrollView/home_recommend_subjects
 @property (nonatomic, assign)NSInteger subject_id;
