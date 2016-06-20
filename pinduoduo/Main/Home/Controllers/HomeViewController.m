@@ -106,7 +106,11 @@
         }
         self.pageControl.numberOfPages = self.subjectModelMArr.count;
         self.homeScrollView.contentSize = CGSizeMake(SCREEN_WIDTH *(self.subjectModelMArr.count +2), 220);
+        //实现循环滚动
+        //在前后各添加一个冗余的view
+        //1.在最前面添加一个view,用来显示和最后一页相同的内容
         UIImageView *firstImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 220)];
+        //2.在最后一页的后面添加一个view,用来显示和第一页相同的内容
         UIImageView *lastImage = [[UIImageView alloc] initWithFrame:CGRectMake((_subjectModelMArr.count+1)*SCREEN_WIDTH, 0, SCREEN_WIDTH, 220)];
         [_homeScrollView addSubview:firstImage];
         [_homeScrollView addSubview:lastImage];
@@ -145,42 +149,45 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
+    LOG_METHOD;
     CGFloat offsetX = scrollView.contentOffset.x;
-//    offsetX = offsetX + (SCREEN_WIDTH * 0.5);
     int page = offsetX / SCREEN_WIDTH;
-//    self.pageControl.currentPage = page;
     if (page == 6) {
-        
+        //解决最后一张有延时的问题
         [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+        self.pageControl.currentPage = 0;
     }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-//    [self stopTimer];
+    LOG_METHOD;
+    [self stopTimer];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    [self startTimer];
+    LOG_METHOD;
+    [self startTimer];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    LOG_METHOD;
+    CGPoint currentLocation = scrollView.contentOffset;
+    CGFloat offsetx = currentLocation.x + SCREEN_WIDTH;
     
-    CGFloat location = scrollView.contentOffset.x;
-    if (location/SCREEN_WIDTH == 6) {
-        NSLog(@"5");
+    if (offsetx/SCREEN_WIDTH == 6) {//判断是否已经翻到最后
+        //将当前位置设置为原来的第一张图片
         [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
         _pageControl.currentPage = 0;
     }
-    else if (location/SCREEN_WIDTH == 0) {
-        
+    else if (currentLocation.x/SCREEN_WIDTH == 0) {//判断是否已经翻到最后
+        //将当前位置设置为原来的最后一张图片
         [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH*5, 0) animated:NO];
         _pageControl.currentPage = 4;
     }
     else
     {
-        _pageControl.currentPage  = location/SCREEN_WIDTH -1;
+        _pageControl.currentPage  = currentLocation.x/SCREEN_WIDTH -1;
     }
     
     
@@ -205,36 +212,25 @@
 }
 
 - (void)changeNextPage{
+    LOG_METHOD;
+    CGPoint currentLocation = _homeScrollView.contentOffset;
+    CGPoint offset = CGPointMake(currentLocation.x + SCREEN_WIDTH, 0);
+    [self.homeScrollView setContentOffset:offset animated:YES];
     
-    CGFloat x = self.homeScrollView.contentOffset.x;
-    int index = x / SCREEN_WIDTH;
-    if (index < 7) {
-//
-//        if (index == 6 ) {
-//            _pageControl.currentPage = 0;
-//            [self.homeScrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
-//        }
-        if (index == 0) {
-
-            [self.homeScrollView setContentOffset:CGPointMake(SCREEN_WIDTH*6, 0) animated:NO];
-            _pageControl.currentPage = 4;
-        }
-        
-        if (index!=0 && index !=6) {
-            if (index == 5) {
-                
-                _pageControl.currentPage = 0;
-                [self.homeScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-
-            }else{
-                _pageControl.currentPage = index;
-                [self.homeScrollView setContentOffset:CGPointMake(SCREEN_WIDTH * (index+1), 0) animated:YES];
-
-            }
-            
-            }
+    if (offset.x/SCREEN_WIDTH == self.subjectModelMArr.count +1) {//判断是否已经翻到最后
+        NSLog(@"%lu", self.subjectModelMArr.count +1);
+        //将当前位置设置为原来的第一张图片
+        _pageControl.currentPage = 0;
     }
-
+    else if (currentLocation.x/SCREEN_WIDTH == 0) {//判断是否已经翻到最前
+        //将当前位置设置为原来的最后一张图片
+        _pageControl.currentPage = self.subjectModelMArr.count -1;
+    }
+    else
+    {
+        _pageControl.currentPage  = currentLocation.x/SCREEN_WIDTH;
+        NSLog(@"%ld", (long)_pageControl.currentPage);
+    }
 
 }
 
