@@ -17,9 +17,8 @@
 #import "MAMacro.h"
 #import "AppDelegate.h"
 #import "AssistantTool.h"
-
 #import "UIImage+Color.h"
-
+#import "UIImageView+WebCache.h"
 #import "JSONKit.h"
 #import "Masonry.h"
 

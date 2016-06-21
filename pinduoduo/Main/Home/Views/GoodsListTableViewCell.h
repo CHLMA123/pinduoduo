@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GoodsListDataModel.h"
 
 @interface GoodsListTableViewCell : UITableViewCell
+
+- (void)fillCellWithModel:(GoodsListDataModel *)model;
 
 @end

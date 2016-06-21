@@ -33,10 +33,10 @@
 
 - (void)setupChildControllers{
     [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"首页" tabBarImageName:@"home" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"拼多多商城"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"热榜" tabBarImageName:@"hotlist" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"排行榜"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"海淘" tabBarImageName:@"SuperBrand" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"海淘专区"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"搜索" tabBarImageName:@"search" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"拼多多商城"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"个人中心" tabBarImageName:@"person" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"个人中心"];
+    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"热榜" tabBarImageName:@"hotlist" rootViewControllerClass:[HotListViewController class] rootViewControllerTitle:@"排行榜"];
+    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"海淘" tabBarImageName:@"SuperBrand" rootViewControllerClass:[SuperBrandViewController class] rootViewControllerTitle:@"海淘专区"];
+    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"搜索" tabBarImageName:@"search" rootViewControllerClass:[SearchViewController class] rootViewControllerTitle:@"拼多多商城"];
+    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"个人中心" tabBarImageName:@"person" rootViewControllerClass:[PersonalViewController class] rootViewControllerTitle:@"个人中心"];
 }
 
 - (void)setupChildNavigationControllerWithClass:(Class)class tabBarTitleName:(NSString *)tabName tabBarImageName:(NSString *)imageName rootViewControllerClass:(Class)rootViewControllerClass rootViewControllerTitle:(NSString *)title

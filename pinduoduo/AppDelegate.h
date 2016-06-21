@@ -14,8 +14,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, strong)BaseTabBarController *rootViewController;
-
+@property (nonatomic, strong) BaseTabBarController *rootViewController;
+@property (assign, nonatomic) NSString *curNetworkStatus;//当前网络状态
 
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

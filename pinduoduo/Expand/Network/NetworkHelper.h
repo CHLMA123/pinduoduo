@@ -12,7 +12,7 @@ typedef void(^NetworkHelperBlock)(id obj);
 
 @interface NetworkHelper : NSObject
 
-//@property (nonatomic, strong)NetworkHelperBlock block;
+//@property (nonatomic, strong) NSString netStatus;
 
 + (instancetype)sharedManager;
 

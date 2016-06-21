@@ -27,10 +27,22 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    //监测网络
-    [[NetworkHelper sharedManager] networkReaching];
+    self.curNetworkStatus = @"WiFi";//默认状态为wifi
+    [self registerReachability];
     
     return YES;
+}
+
+- (void)registerReachability{
+    //监测网络
+    [[NetworkHelper sharedManager] networkReaching];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netStatusChangedValues:) name:@"NetReachabilityStatusChanged" object:nil];
+}
+
+- (void)netStatusChangedValues:(NSNotification *)notify{
+    NSDictionary *dic = notify.userInfo;
+    NSString *networkStatus = [dic objectForKey:@"networkStatus"];
+    self.curNetworkStatus = networkStatus;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

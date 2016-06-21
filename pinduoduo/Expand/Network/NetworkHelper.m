@@ -42,33 +42,45 @@
     return self;
 }
 
+/*
+ AFNetworkReachabilityStatusUnknown          = -1,
+ AFNetworkReachabilityStatusNotReachable     = 0,
+ AFNetworkReachabilityStatusReachableViaWWAN = 1,
+ AFNetworkReachabilityStatusReachableViaWiFi = 2,
+ */
 - (void)networkReaching{
-    /*
-     AFNetworkReachabilityStatusUnknown          = -1,
-     AFNetworkReachabilityStatusNotReachable     = 0,
-     AFNetworkReachabilityStatusReachableViaWWAN = 1,
-     AFNetworkReachabilityStatusReachableViaWiFi = 2,
-     */
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    [[AFNetworkReachabilityManager sharedManager]setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSString *mNetworkStatus = [NSString string];
         switch (status) {
             case -1:
-                self.netStatus = @"Unknown";
+                mNetworkStatus = @"Unknown";
                 break;
             case 0:
-                self.netStatus = @"NotReachable";
+                mNetworkStatus = @"NotReachable";
                 break;
             case 1:
-                self.netStatus = @"WWAN";
+                mNetworkStatus = @"WWAN";
                 break;
             case 2:
-                self.netStatus = @"WiFi";
+                mNetworkStatus = @"WiFi";
                 break;
             default:
                 break;
         }
+        if (self.netStatus) {
+            if (![self.netStatus isEqualToString:mNetworkStatus]) {//网络状态发生变化，拋一个通知出来
+                self.netStatus = mNetworkStatus;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NetReachabilityStatusChanged" object:nil userInfo:@{@"networkStatus":mNetworkStatus}];
+            }
+        }else{
+        
+            self.netStatus = mNetworkStatus;
+        }
+        
         NSLog(@"当前网络状态 = %@",self.netStatus);
     }];
+    
 }
 
 - (void)getWithURL:(NSString *)urlString WithParmeters:(NSDictionary *)dictionary compeletionWithBlock:(NetworkHelperBlock)block
@@ -78,8 +90,8 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSArray *retArr = (NSArray *)responseObject;
-        BLOCK_EXEC(block,retArr);
+//        id retArr = (NSArray *)responseObject;
+        BLOCK_EXEC(block,responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error:%@", error.description);

@@ -10,21 +10,25 @@
 #import "NetworkHelper.h"
 #import "XRCarouselView.h"
 #import "GoodsSubjectModel.h"
-#import "UIImageView+WebCache.h"
+#import "GoodsListTableViewCell.h"
+#import "GoodsListDataModel.h"
 
 @interface HomeViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, strong)UIScrollView *homeScrollView;
-@property (nonatomic, strong)UIPageControl *pageControl;
-@property (nonatomic, strong)UITableView *mainTableView;
-@property (nonatomic, strong)NSMutableArray *subjectModelMArr;
-@property (nonatomic, strong)NSTimer *timer;
+@property (nonatomic, strong) UIScrollView *homeScrollView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) NSMutableArray *subjectModelMArr;
+@property (nonatomic, strong) NSTimer *timer;
 
-//@property (nonatomic, strong)UIImageView *scrollView1;
-//@property (nonatomic, strong)UIImageView *scrollView2;
-//@property (nonatomic, strong)UIImageView *scrollView3;
-//@property (nonatomic, strong)UIImageView *scrollView4;
-//@property (nonatomic, strong)UIImageView *scrollView5;
+////下载的图片字典
+//@property (nonatomic, strong) NSMutableDictionary *imageDic;
+////下载图片的操作
+//@property (nonatomic, strong) NSMutableDictionary *operationDic;
+////任务队列
+//@property (nonatomic, strong) NSOperationQueue *queue;
+
+@property (nonatomic, strong) NSMutableArray *goodsListMArr;
 
 @end
 
@@ -32,11 +36,19 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+//    [self commitInitData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+//    _imageDic = [NSMutableDictionary dictionary];
+//    _operationDic = [NSMutableDictionary dictionary];
+//    _queue = [[NSOperationQueue alloc] init];
+    
+    _subjectModelMArr = [NSMutableArray array];
+    _goodsListMArr = [NSMutableArray array];
+    
     [self commitInitData];
     [self setupView];
 }
@@ -56,6 +68,7 @@
     self.homeScrollView.showsVerticalScrollIndicator = NO;
     self.homeScrollView.delegate = self;
     [self.homeScrollView setBounces:NO];
+    self.homeScrollView.tag = 2000;
     [_homeScrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
     
     
@@ -67,7 +80,10 @@
     self.pageControl.center = CGPointMake(self.homeScrollView.center.x, 195);
 
     self.mainTableView = [[UITableView alloc] init];
-    _mainTableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 220);
+    _mainTableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    _mainTableView.delegate = self;
+    _mainTableView.dataSource = self;
+    _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.mainTableView];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 220)];
@@ -86,54 +102,37 @@
 
 #pragma mark - 获取网络数据
 - (void)commitInitData{
+    NSLog(@"当前设备网络状态: %@", [AppDelegate appDelegate].curNetworkStatus);
+    //创建用来缓存图片的文件夹
+    [self setupCacheFolder];
     //网络图片
     [self getSubjectData];
     [self getGoodListData];
+}
+
+- (void)setupCacheFolder{
+    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+    BOOL isDir = NO;
+    BOOL isExsit = [[NSFileManager defaultManager] fileExistsAtPath:cache isDirectory:&isDir];
+    if (!isDir || !isExsit) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:cache withIntermediateDirectories:YES attributes:nil error:nil];
+    }
 }
 
 - (void)getSubjectData{
     NSString *urlSubject = @"http://apiv2.yangkeduo.com/subjects";
     [[NetworkHelper sharedManager] getWithURL:urlSubject WithParmeters:nil compeletionWithBlock:^(id obj) {
         
-        NSLog(@"---getSubjectData--- dic = %@",obj);
+        //NSLog(@"---getSubjectData--- obj = %@",obj);
         NSArray *dataArr = obj;
-        _subjectModelMArr = [NSMutableArray array];
+        // *1 获取数据源
         for (int i = 0; i < dataArr.count; i ++) {
             NSDictionary *dic = dataArr[i];
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
             [subjectModel setValuesForKeysWithDictionary:dic];
             [_subjectModelMArr addObject:subjectModel];
         }
-        self.pageControl.numberOfPages = self.subjectModelMArr.count;
-        self.homeScrollView.contentSize = CGSizeMake(SCREEN_WIDTH *(self.subjectModelMArr.count +2), 220);
-        //实现循环滚动
-        //在前后各添加一个冗余的view
-        //1.在最前面添加一个view,用来显示和最后一页相同的内容
-        UIImageView *firstImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 220)];
-        //2.在最后一页的后面添加一个view,用来显示和第一页相同的内容
-        UIImageView *lastImage = [[UIImageView alloc] initWithFrame:CGRectMake((_subjectModelMArr.count+1)*SCREEN_WIDTH, 0, SCREEN_WIDTH, 220)];
-        [_homeScrollView addSubview:firstImage];
-        [_homeScrollView addSubview:lastImage];
-        
-        for (int i = 0; i < self.subjectModelMArr.count; i++) {
-            GoodsSubjectModel * model = [[GoodsSubjectModel alloc] init];
-            model = (GoodsSubjectModel *)self.subjectModelMArr[i];
-            
-            NSString *imageUrl = model.home_banner;
-            if (i == 0) {
-                [lastImage sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            }
-            if (i == self.subjectModelMArr.count -1) {
-                [firstImage sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            }
-            UIImageView *imageView = [[UIImageView alloc] init];
-            imageView.frame = CGRectMake((i+1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, 220);
-            imageView.tag = 100 + i;
-            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            
-            [_homeScrollView addSubview:imageView];
-            [self startTimer];
-        }
+        [self showScrollView];
         
     }];
 }
@@ -143,51 +142,156 @@
     NSDictionary *dic = @{@"size":@"50", @"page":@"1"};
     [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(id obj) {
         
-//        NSLog(@"---getGoodListData--- dic = %@",dic);
+        NSLog(@"---getGoodListData--- obj = %@",obj);
+        NSDictionary *dataDic = obj;
+        NSArray *arrGoodsList = [dataDic objectForKey:@"goods_list"];
+//        NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
+//        NSArray *arrhome_super_brand = [dataDic objectForKey:@"home_super_brand"];
+//        NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
+        
+        for (int i = 0; i < arrGoodsList.count; i ++) {
+            NSDictionary *dic = arrGoodsList[i];
+            GoodsListDataModel *model = [[GoodsListDataModel alloc] init];
+            //[model setValuesForKeysWithDictionary:dic];
+            model.goods_id = [dic objectForKey:@"goods_id"];
+            model.goods_name = [dic objectForKey:@"goods_name"];
+            model.image_url = [dic objectForKey:@"image_url"];
+            model.is_app = [dic objectForKey:@"is_app"];
+            NSDictionary *group = [dic objectForKey:@"group"];
+            model.price = [group objectForKey:@"price"];
+            model.customer_num = [group objectForKey:@"customer_num"];
+            
+            [_goodsListMArr addObject:model];
+        }
+        [self.mainTableView reloadData];
+        
     }];
+}
+
+#pragma mark - TableView数据处理
+
+#pragma mark - ScrollView数据处理
+- (void)showScrollView{// *2 处理并显示数据
+    
+    self.pageControl.numberOfPages = self.subjectModelMArr.count;
+    self.homeScrollView.contentSize = CGSizeMake(SCREEN_WIDTH *(self.subjectModelMArr.count +2), 220);
+    //实现循环滚动
+    //在前后各添加一个冗余的view
+    //1.在最前面添加一个view,用来显示和最后一页相同的内容
+    UIImageView *firstImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 220)];
+    //2.在最后一页的后面添加一个view,用来显示和第一页相同的内容
+    UIImageView *lastImage = [[UIImageView alloc] initWithFrame:CGRectMake((_subjectModelMArr.count+1)*SCREEN_WIDTH, 0, SCREEN_WIDTH, 220)];
+    [_homeScrollView addSubview:firstImage];
+    [_homeScrollView addSubview:lastImage];
+    
+    for (int i = 0; i < self.subjectModelMArr.count; i++) {
+        GoodsSubjectModel * model = [[GoodsSubjectModel alloc] init];
+        model = (GoodsSubjectModel *)self.subjectModelMArr[i];
+        
+        NSString *imageUrl = model.home_banner;
+        if (i == 0) {
+            [lastImage sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"default_load"]];
+        }
+        if (i == self.subjectModelMArr.count -1) {
+            [firstImage sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"default_load"]];
+        }
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.frame = CGRectMake((i+1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, 220);
+        imageView.tag = 100 + i;
+        
+//        //从内存缓存中取图片
+//        UIImage *image = [self.imageDic objectForKey:imageUrl];
+//        if (image) {
+//            imageView.image = image;
+//        }else{
+//            //从沙盒缓存中取图片
+//            NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+//            NSString *stringPath = [cache stringByAppendingPathComponent:[imageUrl lastPathComponent]];
+//            NSData *data = [NSData dataWithContentsOfFile:stringPath];
+//            if (data) {
+//                imageView.image = [UIImage imageWithData:data];
+//                [self.imageDic setObject:[UIImage imageWithData:data] forKey:imageUrl];
+//            }else{
+//               //下载图片
+//                NSBlockOperation *operationDownload = [self.operationDic objectForKey:imageUrl];
+//                if (!operationDownload) {
+//                    operationDownload = [NSBlockOperation blockOperationWithBlock:^{
+//                        NSURL *url = [NSURL URLWithString:imageUrl];
+//                        NSData *data = [NSData dataWithContentsOfURL:url];
+//                        if (data) {
+//                            imageView.image = [UIImage imageWithData:data];
+//                            [self.imageDic setObject:[UIImage imageWithData:data] forKey:imageUrl];
+//                            [data writeToFile:stringPath atomically:YES];
+//                            [self.operationDic removeObjectForKey:imageUrl];
+//                        }
+//                    }];
+//                    [self.queue addOperation:operationDownload];
+//                    [self.operationDic setObject:operationDownload forKey:imageUrl];
+//                }
+//                
+//            }
+//            
+//        
+//        }
+
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        
+        [_homeScrollView addSubview:imageView];
+        [self startTimer];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    LOG_METHOD;
-    CGFloat offsetX = scrollView.contentOffset.x;
-    int page = offsetX / SCREEN_WIDTH;
-    if (page == 6) {
-        //解决最后一张有延时的问题
-        [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
-        self.pageControl.currentPage = 0;
+    //LOG_METHOD;
+    if (scrollView.tag == 2000) {
+        CGFloat offsetX = scrollView.contentOffset.x;
+        int page = offsetX / SCREEN_WIDTH;
+        if (page == 6) {
+            //解决最后一张有延时的问题
+            [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+            self.pageControl.currentPage = 0;
+        }
     }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    LOG_METHOD;
-    [self stopTimer];
+    //LOG_METHOD;
+    if (scrollView.tag == 2000) {
+        [self stopTimer];
+    }
+
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    LOG_METHOD;
-    [self startTimer];
+    //LOG_METHOD;
+    if (scrollView.tag == 2000) {
+        [self startTimer];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    LOG_METHOD;
-    CGPoint currentLocation = scrollView.contentOffset;
-    CGFloat offsetx = currentLocation.x + SCREEN_WIDTH;
+    //LOG_METHOD;
     
-    if (offsetx/SCREEN_WIDTH == 6) {//判断是否已经翻到最后
-        //将当前位置设置为原来的第一张图片
-        [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
-        _pageControl.currentPage = 0;
-    }
-    else if (currentLocation.x/SCREEN_WIDTH == 0) {//判断是否已经翻到最后
-        //将当前位置设置为原来的最后一张图片
-        [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH*5, 0) animated:NO];
-        _pageControl.currentPage = 4;
-    }
-    else
-    {
-        _pageControl.currentPage  = currentLocation.x/SCREEN_WIDTH -1;
+    if (scrollView.tag == 2000) {
+        CGPoint currentLocation = scrollView.contentOffset;
+        CGFloat offsetx = currentLocation.x + SCREEN_WIDTH;
+        if (offsetx/SCREEN_WIDTH == 6) {//判断是否已经翻到最后
+            //将当前位置设置为原来的第一张图片
+            [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
+            _pageControl.currentPage = 0;
+        }
+        else if (currentLocation.x/SCREEN_WIDTH == 0) {//判断是否已经翻到最后
+            //将当前位置设置为原来的最后一张图片
+            [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH*5, 0) animated:NO];
+            _pageControl.currentPage = 4;
+        }
+        else
+        {
+            _pageControl.currentPage  = currentLocation.x/SCREEN_WIDTH -1;
+        }
+   
     }
     
     
@@ -212,15 +316,15 @@
 }
 
 - (void)changeNextPage{
-    LOG_METHOD;
+    //LOG_METHOD;
     CGPoint currentLocation = _homeScrollView.contentOffset;
     CGPoint offset = CGPointMake(currentLocation.x + SCREEN_WIDTH, 0);
     [self.homeScrollView setContentOffset:offset animated:YES];
     
     if (offset.x/SCREEN_WIDTH == self.subjectModelMArr.count +1) {//判断是否已经翻到最后
-        NSLog(@"%lu", self.subjectModelMArr.count +1);
         //将当前位置设置为原来的第一张图片
         _pageControl.currentPage = 0;
+        //NSLog(@"%lu", self.subjectModelMArr.count +1);
     }
     else if (currentLocation.x/SCREEN_WIDTH == 0) {//判断是否已经翻到最前
         //将当前位置设置为原来的最后一张图片
@@ -240,25 +344,37 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    return 360;
 }
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return self.goodsListMArr.count;
+//    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"main";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    cell.backgroundColor = [UIColor cyanColor];
+    NSInteger index = indexPath.row;
+    [cell fillCellWithModel:self.goodsListMArr[index]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = RGBCOLOR(240, 240, 240);
     return cell;
 }
 
+#pragma mark 清除沙盒中的图片缓存
+- (void)clearDiskCache {
+    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cache error:NULL];
+    for (NSString *fileName in contents) {
+        [[NSFileManager defaultManager] removeItemAtPath:[cache stringByAppendingPathComponent:fileName] error:nil];
+    }
+}
 /*
 #pragma mark - Navigation
 

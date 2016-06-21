@@ -11,24 +11,24 @@
 @interface GoodsListDataModel : NSObject
 
 #pragma BasicItems - ScrollView
-@property (nonatomic, assign)NSInteger goods_id;
+@property (nonatomic, strong)NSString *goods_id;
 @property (nonatomic, strong)NSString *goods_name;
 @property (nonatomic, strong)NSString *image_url;
-@property (nonatomic, assign)NSInteger is_app;
-@property (nonatomic, assign)NSInteger event_type;
+@property (nonatomic, strong)NSString *is_app;
+@property (nonatomic, strong)NSString *event_type;
 // group
-@property (nonatomic, assign)NSInteger price;
-@property (nonatomic, assign)NSInteger customer_num;
+@property (nonatomic, strong)NSString *price;
+@property (nonatomic, strong)NSString *customer_num;
 
 #pragma ExpandItems - home_recommend_subjects
-@property (nonatomic, assign)NSInteger is_onsale;
-@property (nonatomic, assign)NSInteger sales;
+@property (nonatomic, strong)NSString *is_onsale;
+@property (nonatomic, strong)NSString *sales;
 @property (nonatomic, strong)NSString *thumb_url;
 @property (nonatomic, strong)NSString *hd_thumb_url;
 @property (nonatomic, strong)NSString *logo;
 
 #pragma ExpandItems - home_super_brand
-@property (nonatomic, assign)NSInteger market_price;
+@property (nonatomic, strong)NSString *market_price;
 @property (nonatomic, strong)NSString *promotion_goods;
 
 @end

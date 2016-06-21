@@ -197,6 +197,7 @@
 		366C47B41D14008F00BE790E /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47AF1D14008F00BE790E /* search.png */; };
 		366C47B61D14008F00BE790E /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B11D14008F00BE790E /* person.png */; };
 		366C47B71D14008F00BE790E /* SuperBrand.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B21D14008F00BE790E /* SuperBrand.png */; };
+		369E908E1D18CAE6009CFD08 /* MACarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 369E908D1D18CAE6009CFD08 /* MACarouselView.m */; };
 		36B184151D14E407004D8382 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B184141D14E407004D8382 /* HomeViewController.m */; };
 		36B184181D14E41C004D8382 /* HotListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B184171D14E41C004D8382 /* HotListViewController.m */; };
 		36B1841B1D14E42E004D8382 /* PersonalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B1841A1D14E42E004D8382 /* PersonalViewController.m */; };
@@ -472,6 +473,8 @@
 		366C47AF1D14008F00BE790E /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		366C47B11D14008F00BE790E /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		366C47B21D14008F00BE790E /* SuperBrand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SuperBrand.png; sourceTree = "<group>"; };
+		369E908C1D18CAE6009CFD08 /* MACarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACarouselView.h; sourceTree = "<group>"; };
+		369E908D1D18CAE6009CFD08 /* MACarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACarouselView.m; sourceTree = "<group>"; };
 		36B184131D14E407004D8382 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		36B184141D14E407004D8382 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		36B184161D14E41C004D8382 /* HotListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotListViewController.h; sourceTree = "<group>"; };
@@ -662,6 +665,7 @@
 		366C45E01D13DF8A00BE790E /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				369E90B51D193CF1009CFD08 /* UIButton */,
 				36BE95E81D17981B0068425B /* NSDictionary */,
 				366C45E11D13DF8A00BE790E /* NSString */,
 				366C45E61D13DF8A00BE790E /* UIImage */,
@@ -1049,6 +1053,8 @@
 			children = (
 				36B184951D154CA7004D8382 /* GoodsListTableViewCell.h */,
 				36B184961D154CA7004D8382 /* GoodsListTableViewCell.m */,
+				369E908C1D18CAE6009CFD08 /* MACarouselView.h */,
+				369E908D1D18CAE6009CFD08 /* MACarouselView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1191,6 +1197,13 @@
 			);
 			name = Manager;
 			path = Expand/Manager;
+			sourceTree = "<group>";
+		};
+		369E90B51D193CF1009CFD08 /* UIButton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIButton;
 			sourceTree = "<group>";
 		};
 		36B1842E1D1537B6004D8382 /* Framework */ = {
@@ -1583,6 +1596,7 @@
 				36B184901D154A74004D8382 /* UIRefreshControl+AFNetworking.m in Sources */,
 				36BE95E71D17829A0068425B /* XRCarouselView.m in Sources */,
 				36BE96131D17C64A0068425B /* SDWebImageDownloader.m in Sources */,
+				369E908E1D18CAE6009CFD08 /* MACarouselView.m in Sources */,
 				366C47921D13DF8A00BE790E /* MASViewConstraint.m in Sources */,
 				366C47951D13DF8A00BE790E /* View+MASAdditions.m in Sources */,
 				36BE961A1D17C64A0068425B /* UIImage+WebP.m in Sources */,
@@ -1732,7 +1746,7 @@
 		366C45D61D13DA3300BE790E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pinduoduo/Resource/Global/MAPrefixHeader.pch";
 				INFOPLIST_FILE = pinduoduo/Info.plist;
@@ -1746,7 +1760,7 @@
 		366C45D71D13DA3300BE790E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pinduoduo/Resource/Global/MAPrefixHeader.pch";
 				INFOPLIST_FILE = pinduoduo/Info.plist;
