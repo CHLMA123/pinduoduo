@@ -10,16 +10,33 @@
 #import "NetworkHelper.h"
 #import "XRCarouselView.h"
 #import "GoodsSubjectModel.h"
-#import "GoodsListTableViewCell.h"
 #import "GoodsListDataModel.h"
+#import "RecommendSubjectsModel.h"
+#import "SuperBrandDataModel.h"
+#import "MobileAppGroupsModel.h"
+#import "GoodsListTableViewCell.h"
+#import "GroupBuyView.h"
+#import "MItemCollectionViewCell.h"
+#import "CollectionItemModel.h"
 
-@interface HomeViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+static NSString *collectionID = @"MItem";
+
+@interface HomeViewController ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UIScrollView *homeScrollView;
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) UITableView *mainTableView;
-@property (nonatomic, strong) NSMutableArray *subjectModelMArr;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSMutableArray *subjectModelMArr;// 轮播数据源
+@property (nonatomic, strong) NSMutableArray *goodslistMArr;// goods_list
+@property (nonatomic, strong) NSMutableArray *recommendsubjectsMArr;// home_recommend_subjects
+@property (nonatomic, strong) NSMutableArray *superbrandMArr;// home_super_brand
+@property (nonatomic, strong) NSMutableArray *mobileappgroupsMArr;// mobile_app_groups
+@property (nonatomic, strong) GroupBuyView *groupBuyView;
+@property (nonatomic, strong) UICollectionView *homeCollectionV;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+@property (nonatomic, assign) NSInteger itemCount;
+@property (nonatomic, strong) NSArray *itemArray;//collectionView 的数据源
 
 ////下载的图片字典
 //@property (nonatomic, strong) NSMutableDictionary *imageDic;
@@ -28,7 +45,7 @@
 ////任务队列
 //@property (nonatomic, strong) NSOperationQueue *queue;
 
-@property (nonatomic, strong) NSMutableArray *goodsListMArr;
+
 
 @end
 
@@ -47,7 +64,14 @@
 //    _queue = [[NSOperationQueue alloc] init];
     
     _subjectModelMArr = [NSMutableArray array];
-    _goodsListMArr = [NSMutableArray array];
+    _goodslistMArr = [NSMutableArray array];
+    _recommendsubjectsMArr = [NSMutableArray array];
+    _superbrandMArr = [NSMutableArray array];
+    _mobileappgroupsMArr = [NSMutableArray array];
+    _itemArray = [NSArray array];
+    
+    //init UICollectionView的数据源 #import "CollectionItemModel.h"
+    [self setupCollectionData];
     
     [self commitInitData];
     [self setupView];
@@ -61,24 +85,46 @@
 - (void)setupView{
     
     self.homeScrollView = [[UIScrollView alloc] init];
-    self.homeScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 220);
-    self.homeScrollView.backgroundColor = [UIColor lightGrayColor];
-    self.homeScrollView.pagingEnabled = YES;
-    self.homeScrollView.showsHorizontalScrollIndicator = NO;
-    self.homeScrollView.showsVerticalScrollIndicator = NO;
-    self.homeScrollView.delegate = self;
-    [self.homeScrollView setBounces:NO];
-    self.homeScrollView.tag = 2000;
+    _homeScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 220);
+    _homeScrollView.backgroundColor = [UIColor lightGrayColor];
+    _homeScrollView.pagingEnabled = YES;
+    _homeScrollView.showsHorizontalScrollIndicator = NO;
+    _homeScrollView.showsVerticalScrollIndicator = NO;
+    _homeScrollView.delegate = self;
+    _homeScrollView.tag = 2000;
+    [_homeScrollView setBounces:NO];
     [_homeScrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
     
     
     self.pageControl = [[UIPageControl alloc] init];
-    self.pageControl.frame = CGRectMake(0, 195, 150, 15);
-    self.pageControl.pageIndicatorTintColor = [UIColor whiteColor];
-    self.pageControl.currentPageIndicatorTintColor = [UIColor redColor];
-    self.pageControl.userInteractionEnabled = NO;
-    self.pageControl.center = CGPointMake(self.homeScrollView.center.x, 195);
+    _pageControl.frame = CGRectMake(0, 195, 150, 15);
+    _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
+    _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
+    _pageControl.userInteractionEnabled = NO;
+    _pageControl.center = CGPointMake(self.homeScrollView.center.x, 195);
 
+    CGFloat collectionW = SCREEN_WIDTH;
+    CGFloat collectionH = 110;
+    self.itemCount = 10;
+    _flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    _flowLayout.minimumLineSpacing = 0;
+    _flowLayout.minimumInteritemSpacing = 5;
+    _flowLayout.itemSize = CGSizeMake(collectionH, collectionH);
+    _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    self.homeCollectionV = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 230, collectionW, collectionH) collectionViewLayout:_flowLayout];
+    _homeCollectionV.showsHorizontalScrollIndicator = YES;
+    _homeCollectionV.showsVerticalScrollIndicator = NO;
+    _homeCollectionV.delegate = self;
+    _homeCollectionV.dataSource = self;
+//    _homeCollectionV.pagingEnabled = YES;
+    [_homeCollectionV setBounces:NO];
+    [self.homeCollectionV registerClass:[MItemCollectionViewCell class] forCellWithReuseIdentifier:collectionID];
+    
+    self.groupBuyView = [[GroupBuyView alloc] init];
+    _groupBuyView.frame = CGRectMake(0, 350, SCREEN_WIDTH, 80);
+//    _groupBuyView.backgroundColor = [UIColor purpleColor];
+    
     self.mainTableView = [[UITableView alloc] init];
     _mainTableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     _mainTableView.delegate = self;
@@ -86,10 +132,12 @@
     _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.mainTableView];
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 220)];
-    headerView.backgroundColor = [UIColor whiteColor];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 430)];
+    headerView.backgroundColor = RGBACOLOR(240, 240, 240, 240);
     [headerView addSubview:self.homeScrollView];
     [headerView addSubview:self.pageControl];
+    [headerView addSubview:self.homeCollectionV];
+    [headerView addSubview:self.groupBuyView];
     self.mainTableView.tableHeaderView = headerView;
     
 }
@@ -98,7 +146,17 @@
 
 }
 
-
+- (void)setupCollectionData{
+    NSArray *descArr = @[@"秒杀",@"超值大牌",@"9块9特卖",@"抽奖",@"食品",@"服饰箱包",@"家居生活",@"母婴",@"美妆护肤",@"海淘"];
+    NSMutableArray *mArr = [[NSMutableArray alloc] init];
+    for (int i =0 ; i < 10; i ++) {
+        CollectionItemModel *model = [[CollectionItemModel alloc] init];
+        model.image = [UIImage imageNamed:[NSString stringWithFormat:@"findhome_%d",i]];
+        model.imageDesc = descArr[i];
+        [mArr addObject:model];
+    }
+    _itemArray = mArr;
+}
 
 #pragma mark - 获取网络数据
 - (void)commitInitData{
@@ -144,13 +202,10 @@
         
         NSLog(@"---getGoodListData--- obj = %@",obj);
         NSDictionary *dataDic = obj;
-        NSArray *arrGoodsList = [dataDic objectForKey:@"goods_list"];
-//        NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
-//        NSArray *arrhome_super_brand = [dataDic objectForKey:@"home_super_brand"];
-//        NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
-        
-        for (int i = 0; i < arrGoodsList.count; i ++) {
-            NSDictionary *dic = arrGoodsList[i];
+        NSArray *goods_list = [dataDic objectForKey:@"goods_list"];
+        // 1 goods_list
+        for (int i = 0; i < goods_list.count; i ++) {
+            NSDictionary *dic = goods_list[i];
             GoodsListDataModel *model = [[GoodsListDataModel alloc] init];
             //[model setValuesForKeysWithDictionary:dic];
             model.goods_id = [dic objectForKey:@"goods_id"];
@@ -161,8 +216,89 @@
             model.price = [group objectForKey:@"price"];
             model.customer_num = [group objectForKey:@"customer_num"];
             
-            [_goodsListMArr addObject:model];
+            [_goodslistMArr addObject:model];
         }
+        // 2 home_recommend_subjects
+        NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
+        RecommendSubjectsModel *recommendModel = [[RecommendSubjectsModel alloc] init];
+        for (int i = 0; i < arrHome_recommend_subjects.count; i ++) {
+            NSDictionary *dic = arrHome_recommend_subjects[i];
+            // 2.1 recommendModel.goodSubjectModel
+            GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
+            {
+                subjectModel.subject_id = [dic objectForKey:@"subject_id"];
+                subjectModel.subject = [dic objectForKey:@"subject"];
+                subjectModel.second_name = [dic objectForKey:@"second_name"];
+                subjectModel.desc = [dic objectForKey:@"desc"];
+                subjectModel.home_banner = [dic objectForKey:@"home_banner"];
+                subjectModel.home_banner_height = [dic objectForKey:@"home_banner_height"];
+                subjectModel.home_banner_width = [dic objectForKey:@"home_banner_width"];
+                subjectModel.type = [dic objectForKey:@"type"];
+                subjectModel.position = [dic objectForKey:@"position"];
+                subjectModel.share_image = [dic objectForKey:@"share_image"];
+            }
+            recommendModel.goodSubjectModel = subjectModel;
+            //  2.2 recommendModel.goodlistArr
+            NSMutableArray *goodsMArr = [[NSMutableArray alloc] init];
+            NSArray *goods = [dic objectForKey:@"goods_list"];
+            for (int i = 0; i < goods.count; i ++) {
+                GoodsListDataModel *goodsModel = [[GoodsListDataModel alloc] init];
+                NSDictionary *dic = goods[i];
+                [goodsModel setValuesForKeysWithDictionary:dic];
+                [goodsMArr addObject:goodsModel];
+            }
+            recommendModel.goodlistArr = goodsMArr;
+        }
+        [_recommendsubjectsMArr addObject:recommendModel];
+        
+        // 3 home_super_brand
+        NSDictionary *arrhome_super_brand = [dataDic objectForKey:@"home_super_brand"];
+        SuperBrandDataModel *superbrandModel = [[SuperBrandDataModel alloc] init];
+        
+            NSDictionary *dic = arrhome_super_brand;
+            // 3.1 recommendModel.goodSubjectModel
+            GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
+            {
+                subjectModel.subject_id = [dic objectForKey:@"subject_id"];
+                subjectModel.subject = [dic objectForKey:@"subject"];
+                subjectModel.second_name = [dic objectForKey:@"second_name"];
+                subjectModel.desc = [dic objectForKey:@"desc"];
+                subjectModel.home_banner = [dic objectForKey:@"home_banner"];
+                subjectModel.home_banner_height = [dic objectForKey:@"home_banner_height"];
+                subjectModel.home_banner_width = [dic objectForKey:@"home_banner_width"];
+                subjectModel.type = [dic objectForKey:@"type"];
+                subjectModel.position = [dic objectForKey:@"position"];
+                subjectModel.share_image = [dic objectForKey:@"share_image"];
+                
+                subjectModel.start_time = [dic objectForKey:@"start_time"];
+                subjectModel.end_time = [dic objectForKey:@"end_time"];
+            }
+            superbrandModel.goodSubjectModel = subjectModel;
+            //  3.2 SuperBrandDataModel.goodlistArr
+            NSMutableArray *goodsMArr = [[NSMutableArray alloc] init];
+            NSArray *goods = [dic objectForKey:@"goods_list"];
+            for (int i = 0; i < goods.count; i ++) {
+                GoodsListDataModel *goodsModel = [[GoodsListDataModel alloc] init];
+                NSDictionary *dic = goods[i];
+                [goodsModel setValuesForKeysWithDictionary:dic];
+                [goodsMArr addObject:goodsModel];
+            }
+            superbrandModel.goodlistArr = goodsMArr;
+        
+        [_superbrandMArr addObject:recommendModel];
+        
+        
+        // 4 mobile_app_groups
+        NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
+        for (int i = 0 ; i <arrmobile_app_groups.count; i ++) {
+            NSDictionary *dic = arrmobile_app_groups[i];
+            MobileAppGroupsModel *groupModel = [[MobileAppGroupsModel alloc] init];
+            [groupModel setValuesForKeysWithDictionary:dic];
+            [_mobileappgroupsMArr addObject:groupModel];
+        }
+        
+        BLOCK_EXEC(self.groupBuyView.block, _mobileappgroupsMArr[0]);
+        
         [self.mainTableView reloadData];
         
     }];
@@ -305,7 +441,7 @@
     if (self.timer) {
         [self stopTimer];
     }
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(changeNextPage) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(changeNextPage) userInfo:nil repeats:YES];
     
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
@@ -333,7 +469,7 @@
     else
     {
         _pageControl.currentPage  = currentLocation.x/SCREEN_WIDTH;
-        NSLog(@"%ld", (long)_pageControl.currentPage);
+//        NSLog(@"%ld", (long)_pageControl.currentPage);
     }
 
 }
@@ -349,7 +485,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.goodsListMArr.count;
+    return self.goodslistMArr.count;
 //    return 1;
 }
 
@@ -361,11 +497,37 @@
         cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     NSInteger index = indexPath.row;
-    [cell fillCellWithModel:self.goodsListMArr[index]];
+    [cell fillCellWithModel:self.goodslistMArr[index]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = RGBCOLOR(240, 240, 240);
     return cell;
 }
+
+#pragma mark - UICollectionViewDataSource
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    MItemCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionID forIndexPath:indexPath];
+    CollectionItemModel *model = _itemArray[indexPath.item];
+    cell.imageView.image = model.image;
+    cell.imageLbl.text = model.imageDesc;
+//    if (indexPath.item %2 == 0) {
+//        cell.backgroundColor = [UIColor redColor];
+//    }else
+//    cell.backgroundColor = [UIColor blackColor];
+    return cell;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.itemCount;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    NSLog(@"点击的item---%zd",indexPath.item);
+}
+
 
 #pragma mark 清除沙盒中的图片缓存
 - (void)clearDiskCache {

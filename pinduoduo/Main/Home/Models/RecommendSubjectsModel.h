@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "GoodsSubjectModel.h"
-#import "GoodsListDataModel.h"
-
 
 @interface RecommendSubjectsModel : NSObject
 
 @property (nonatomic, strong)GoodsSubjectModel *goodSubjectModel;
-@property (nonatomic, strong)GoodsListDataModel *goodListModel;
+@property (nonatomic, strong)NSArray *goodlistArr;
 
 @end
 

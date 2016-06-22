@@ -8,19 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "GoodsSubjectModel.h"
-#import "GoodsListDataModel.h"
 
 @interface SuperBrandDataModel : NSObject
 
 @property (nonatomic, strong)GoodsSubjectModel *goodSubjectModel;
-@property (nonatomic, strong)GoodsListDataModel *goodListModel;
+@property (nonatomic, strong)NSArray *goodlistArr;
 
 @end
 
 /*
  home_super_brand
- 
- 
  {
  "subject_id": 426,
  "subject": "6/18大牌",

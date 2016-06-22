@@ -24,8 +24,11 @@
  GET
  http://apiv2.yangkeduo.com/v2/goods?size=50&page=1
  
+ 上拉获取更多的数据
+ http://apiv2.yangkeduo.com/v2/haitaov2?size=50&page=1
+ http://apiv2.yangkeduo.com/v2/haitaov2?size=50&page=2
  
- 
+ page ++
  
  
  

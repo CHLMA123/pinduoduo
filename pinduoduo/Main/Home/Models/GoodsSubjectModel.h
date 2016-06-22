@@ -11,20 +11,20 @@
 @interface GoodsSubjectModel : NSObject
 
 #pragma BasicItems - ScrollView/home_recommend_subjects
-@property (nonatomic, assign)NSInteger subject_id;
+@property (nonatomic, strong)NSString *subject_id;
 @property (nonatomic, strong)NSString *subject;
 @property (nonatomic, strong)NSString *second_name;
 @property (nonatomic, strong)NSString *desc;
 @property (nonatomic, strong)NSString *home_banner;
-@property (nonatomic, assign)NSInteger home_banner_height;
-@property (nonatomic, assign)NSInteger home_banner_width;
+@property (nonatomic, strong)NSString *home_banner_height;
+@property (nonatomic, strong)NSString *home_banner_width;
 @property (nonatomic, strong)NSString *type;
-@property (nonatomic, assign)NSInteger position;
+@property (nonatomic, strong)NSString *position;
 @property (nonatomic, strong)NSString *share_image;
 
 #pragma ExpandItems - home_super_brand
-@property (nonatomic, strong)NSData *start_time;
-@property (nonatomic, strong)NSData *end_time;
+@property (nonatomic, strong)NSString *start_time;
+@property (nonatomic, strong)NSString *end_time;
 
 @end
 
