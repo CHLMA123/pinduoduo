@@ -18,6 +18,8 @@
 #import "GroupBuyView.h"
 #import "MItemCollectionViewCell.h"
 #import "CollectionItemModel.h"
+#import "SuperBrandTableViewCell.h"
+#import "OthersTableViewCell.h"
 
 static NSString *collectionID = @"MItem";
 
@@ -187,7 +189,8 @@ static NSString *collectionID = @"MItem";
         for (int i = 0; i < dataArr.count; i ++) {
             NSDictionary *dic = dataArr[i];
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
-            [subjectModel setValuesForKeysWithDictionary:dic];
+//            [subjectModel setValuesForKeysWithDictionary:dic];
+            [subjectModel assginToPropertyWithDic:dic];
             [_subjectModelMArr addObject:subjectModel];
         }
         [self showScrollView];
@@ -199,63 +202,74 @@ static NSString *collectionID = @"MItem";
     NSString *urlGoods = @"http://apiv2.yangkeduo.com/v2/goods?";
     NSDictionary *dic = @{@"size":@"50", @"page":@"1"};
     [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(id obj) {
-        
+        NSInteger k = 0 ;//记录数组插入元素的个数 0：首次插入 1：第二次插入 依次类推。。。
         NSLog(@"---getGoodListData--- obj = %@",obj);
         NSDictionary *dataDic = obj;
-        NSArray *goods_list = [dataDic objectForKey:@"goods_list"];
+        
+        //-------------------------------------------------------------------------------
         // 1 goods_list
+        NSArray *goods_list = [dataDic objectForKey:@"goods_list"];
         for (int i = 0; i < goods_list.count; i ++) {
             NSDictionary *dic = goods_list[i];
             GoodsListDataModel *model = [[GoodsListDataModel alloc] init];
-            //[model setValuesForKeysWithDictionary:dic];
-            model.goods_id = [dic objectForKey:@"goods_id"];
-            model.goods_name = [dic objectForKey:@"goods_name"];
-            model.image_url = [dic objectForKey:@"image_url"];
-            model.is_app = [dic objectForKey:@"is_app"];
-            NSDictionary *group = [dic objectForKey:@"group"];
-            model.price = [group objectForKey:@"price"];
-            model.customer_num = [group objectForKey:@"customer_num"];
+            
+                model.goods_id = [dic objectForKey:@"goods_id"];
+                model.goods_name = [dic objectForKey:@"goods_name"];
+                model.image_url = [dic objectForKey:@"image_url"];
+                model.is_app = [dic objectForKey:@"is_app"];
+                NSDictionary *group = [dic objectForKey:@"group"];
+                model.price = [group objectForKey:@"price"];
+                model.customer_num = [group objectForKey:@"customer_num"];
             
             [_goodslistMArr addObject:model];
         }
+        
+        //-------------------------------------------------------------------------------
         // 2 home_recommend_subjects
         NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
-        RecommendSubjectsModel *recommendModel = [[RecommendSubjectsModel alloc] init];
         for (int i = 0; i < arrHome_recommend_subjects.count; i ++) {
             NSDictionary *dic = arrHome_recommend_subjects[i];
-            // 2.1 recommendModel.goodSubjectModel
-            GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
-            {
-                subjectModel.subject_id = [dic objectForKey:@"subject_id"];
-                subjectModel.subject = [dic objectForKey:@"subject"];
-                subjectModel.second_name = [dic objectForKey:@"second_name"];
-                subjectModel.desc = [dic objectForKey:@"desc"];
-                subjectModel.home_banner = [dic objectForKey:@"home_banner"];
-                subjectModel.home_banner_height = [dic objectForKey:@"home_banner_height"];
-                subjectModel.home_banner_width = [dic objectForKey:@"home_banner_width"];
-                subjectModel.type = [dic objectForKey:@"type"];
-                subjectModel.position = [dic objectForKey:@"position"];
-                subjectModel.share_image = [dic objectForKey:@"share_image"];
-            }
-            recommendModel.goodSubjectModel = subjectModel;
-            //  2.2 recommendModel.goodlistArr
-            NSMutableArray *goodsMArr = [[NSMutableArray alloc] init];
-            NSArray *goods = [dic objectForKey:@"goods_list"];
-            for (int i = 0; i < goods.count; i ++) {
-                GoodsListDataModel *goodsModel = [[GoodsListDataModel alloc] init];
-                NSDictionary *dic = goods[i];
-                [goodsModel setValuesForKeysWithDictionary:dic];
-                [goodsMArr addObject:goodsModel];
-            }
-            recommendModel.goodlistArr = goodsMArr;
+            RecommendSubjectsModel *recommendModel = [[RecommendSubjectsModel alloc] init];
+                // 2.1 recommendModel.goodSubjectModel
+                GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
+                {
+                    subjectModel.subject_id = [dic objectForKey:@"subject_id"];
+                    subjectModel.subject = [dic objectForKey:@"subject"];
+                    subjectModel.second_name = [dic objectForKey:@"second_name"];
+                    subjectModel.desc = [dic objectForKey:@"desc"];
+                    subjectModel.home_banner = [dic objectForKey:@"home_banner"];
+                    subjectModel.home_banner_height = [dic objectForKey:@"home_banner_height"];
+                    subjectModel.home_banner_width = [dic objectForKey:@"home_banner_width"];
+                    subjectModel.type = [dic objectForKey:@"type"];
+                    subjectModel.position = [dic objectForKey:@"position"];
+                    subjectModel.share_image = [dic objectForKey:@"share_image"];
+                }
+                recommendModel.goodSubjectModel = subjectModel;
+                //  2.2 recommendModel.goodlistArr
+                NSMutableArray *goodsMArr = [[NSMutableArray alloc] init];
+                NSArray *goods = [dic objectForKey:@"goods_list"];
+                for (int i = 0; i < goods.count; i ++) {
+                    GoodsListDataModel *goodsModel = [[GoodsListDataModel alloc] init];
+                    NSDictionary *dic = goods[i];
+//                    [goodsModel setValuesForKeysWithDictionary:dic];
+                    [goodsModel assginToPropertyWithDic:dic];
+                    [goodsMArr addObject:goodsModel];
+                }
+                recommendModel.goodlistArr = goodsMArr;
+            
+            [_recommendsubjectsMArr addObject:recommendModel];
+            NSInteger inserIndex = [subjectModel.position integerValue] +k;
+            NSLog(@"inserIndex : %ld", (long)inserIndex);
+            [_goodslistMArr insertObject:recommendModel atIndex:inserIndex];
+            k ++;
         }
-        [_recommendsubjectsMArr addObject:recommendModel];
         
+        //-------------------------------------------------------------------------------
         // 3 home_super_brand
         NSDictionary *arrhome_super_brand = [dataDic objectForKey:@"home_super_brand"];
-        SuperBrandDataModel *superbrandModel = [[SuperBrandDataModel alloc] init];
-        
+        {
             NSDictionary *dic = arrhome_super_brand;
+            SuperBrandDataModel *superbrandModel = [[SuperBrandDataModel alloc] init];
             // 3.1 recommendModel.goodSubjectModel
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
             {
@@ -280,20 +294,25 @@ static NSString *collectionID = @"MItem";
             for (int i = 0; i < goods.count; i ++) {
                 GoodsListDataModel *goodsModel = [[GoodsListDataModel alloc] init];
                 NSDictionary *dic = goods[i];
-                [goodsModel setValuesForKeysWithDictionary:dic];
+//                [goodsModel setValuesForKeysWithDictionary:dic];
+                [goodsModel assginToPropertyWithDic:dic];
                 [goodsMArr addObject:goodsModel];
             }
             superbrandModel.goodlistArr = goodsMArr;
         
-        [_superbrandMArr addObject:recommendModel];
-        
+        [_superbrandMArr addObject:superbrandModel];
+        NSInteger inserIndex = [subjectModel.position integerValue];
+        NSLog(@"inserIndex : %ld", (long)inserIndex);
+        [_goodslistMArr insertObject:superbrandModel atIndex:inserIndex];
+        }
         
         // 4 mobile_app_groups
         NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
         for (int i = 0 ; i <arrmobile_app_groups.count; i ++) {
             NSDictionary *dic = arrmobile_app_groups[i];
             MobileAppGroupsModel *groupModel = [[MobileAppGroupsModel alloc] init];
-            [groupModel setValuesForKeysWithDictionary:dic];
+//            [groupModel setValuesForKeysWithDictionary:dic];
+            [groupModel assginToPropertyWithDic:dic];
             [_mobileappgroupsMArr addObject:groupModel];
         }
         
@@ -476,7 +495,7 @@ static NSString *collectionID = @"MItem";
 
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    NSLog(@"点击的cell---%zd",indexPath.item);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -485,22 +504,53 @@ static NSString *collectionID = @"MItem";
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    return self.goodslistMArr.count + self.superbrandMArr.count + self.recommendsubjectsMArr.count;
     return self.goodslistMArr.count;
-//    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellID = @"main";
-    GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    if (indexPath.row < (1+7)*5  && (indexPath.row + 1) % 5 == 0 ) {
+        if (indexPath.row == 4) {
+            //超级大牌 cell
+            static NSString *superCellID = @"super";
+            SuperBrandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:superCellID];
+            if (cell == nil) {
+                cell = [[SuperBrandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:superCellID];
+            }
+            SuperBrandDataModel *superModel = self.goodslistMArr[indexPath.row];
+            [cell fillCellWithModel:superModel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = RGBCOLOR(240, 240, 240);
+            return cell;
+            
+        }else{
+            //recommend cell
+            static NSString *othersCellID = @"recommend";
+            OthersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:othersCellID];
+            if (cell == nil) {
+                cell = [[OthersTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:othersCellID];
+            }
+            RecommendSubjectsModel *recommendModel = self.goodslistMArr[indexPath.row];
+            [cell fillCellWithModel:recommendModel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = RGBCOLOR(240, 240, 240);
+            return cell;
+        }
+    
+    }else{
+        //GoodsList cell
+        static NSString *maincellID = @"main";
+        GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:maincellID];
+        if (!cell) {
+            cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:maincellID];
+        }
+        [cell fillCellWithModel:self.goodslistMArr[indexPath.row]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = RGBCOLOR(240, 240, 240);
+        return cell;
     }
-    NSInteger index = indexPath.row;
-    [cell fillCellWithModel:self.goodslistMArr[index]];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = RGBCOLOR(240, 240, 240);
-    return cell;
+    
 }
 
 #pragma mark - UICollectionViewDataSource

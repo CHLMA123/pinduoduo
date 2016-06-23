@@ -264,6 +264,8 @@
 		36BE961B1D17C64A0068425B /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE96091D17C64A0068425B /* UIImageView+HighlightedWebCache.m */; };
 		36BE961C1D17C64A0068425B /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE960B1D17C64A0068425B /* UIImageView+WebCache.m */; };
 		36BE961D1D17C64A0068425B /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE960D1D17C64A0068425B /* UIView+WebCacheOperation.m */; };
+		36E8586D1D1BE1C100B1A882 /* SuperBrandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E8586C1D1BE1C100B1A882 /* SuperBrandView.m */; };
+		36E858701D1BEB9200B1A882 /* NSObject+modelConvertDic.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E8586F1D1BEB9200B1A882 /* NSObject+modelConvertDic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -616,6 +618,10 @@
 		36BE960B1D17C64A0068425B /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		36BE960C1D17C64A0068425B /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		36BE960D1D17C64A0068425B /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		36E8586B1D1BE1C100B1A882 /* SuperBrandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperBrandView.h; sourceTree = "<group>"; };
+		36E8586C1D1BE1C100B1A882 /* SuperBrandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperBrandView.m; sourceTree = "<group>"; };
+		36E8586E1D1BEB9200B1A882 /* NSObject+modelConvertDic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+modelConvertDic.h"; sourceTree = "<group>"; };
+		36E8586F1D1BEB9200B1A882 /* NSObject+modelConvertDic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+modelConvertDic.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1078,6 +1084,8 @@
 		366C479C1D13FE1900BE790E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				36E8586E1D1BEB9200B1A882 /* NSObject+modelConvertDic.h */,
+				36E8586F1D1BEB9200B1A882 /* NSObject+modelConvertDic.m */,
 				36B184611D153DE4004D8382 /* GoodsSubjectModel.h */,
 				36B184621D153DE4004D8382 /* GoodsSubjectModel.m */,
 				36B1846A1D154077004D8382 /* GoodsListDataModel.h */,
@@ -1097,18 +1105,20 @@
 		366C479D1D13FE1900BE790E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				36B119301D1A75D200BE98AE /* MItemCollectionViewCell.h */,
-				36B119311D1A75D200BE98AE /* MItemCollectionViewCell.m */,
 				36B184951D154CA7004D8382 /* GoodsListTableViewCell.h */,
 				36B184961D154CA7004D8382 /* GoodsListTableViewCell.m */,
 				36B1194B1D1A96E700BE98AE /* SuperBrandTableViewCell.h */,
 				36B1194C1D1A96E700BE98AE /* SuperBrandTableViewCell.m */,
+				36E8586B1D1BE1C100B1A882 /* SuperBrandView.h */,
+				36E8586C1D1BE1C100B1A882 /* SuperBrandView.m */,
 				36B1194E1D1A999E00BE98AE /* OthersTableViewCell.h */,
 				36B1194F1D1A999E00BE98AE /* OthersTableViewCell.m */,
 				36B119511D1A9A6F00BE98AE /* othersCollectionViewCell.h */,
 				36B119521D1A9A6F00BE98AE /* othersCollectionViewCell.m */,
 				369E908C1D18CAE6009CFD08 /* MACarouselView.h */,
 				369E908D1D18CAE6009CFD08 /* MACarouselView.m */,
+				36B119301D1A75D200BE98AE /* MItemCollectionViewCell.h */,
+				36B119311D1A75D200BE98AE /* MItemCollectionViewCell.m */,
 				36B119271D1A395700BE98AE /* GroupBuyView.h */,
 				36B119281D1A395700BE98AE /* GroupBuyView.m */,
 			);
@@ -1659,6 +1669,7 @@
 				366C46DC1D13DF8A00BE790E /* BaseViewController.m in Sources */,
 				36B1848F1D154A74004D8382 /* UIProgressView+AFNetworking.m in Sources */,
 				36B184561D153D19004D8382 /* AFURLResponseSerialization.m in Sources */,
+				36E8586D1D1BE1C100B1A882 /* SuperBrandView.m in Sources */,
 				36BE95EB1D1798610068425B /* NSDictionary+ConvertModel.m in Sources */,
 				36B184211D14E457004D8382 /* SuperBrandViewController.m in Sources */,
 				36B1841B1D14E42E004D8382 /* PersonalViewController.m in Sources */,
@@ -1723,6 +1734,7 @@
 				36BE96141D17C64A0068425B /* SDWebImageDownloaderOperation.m in Sources */,
 				36BE960F1D17C64A0068425B /* NSData+ImageContentType.m in Sources */,
 				36BE961B1D17C64A0068425B /* UIImageView+HighlightedWebCache.m in Sources */,
+				36E858701D1BEB9200B1A882 /* NSObject+modelConvertDic.m in Sources */,
 				36B1194D1D1A96E700BE98AE /* SuperBrandTableViewCell.m in Sources */,
 				36B1848B1D154A74004D8382 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				36B119321D1A75D200BE98AE /* MItemCollectionViewCell.m in Sources */,

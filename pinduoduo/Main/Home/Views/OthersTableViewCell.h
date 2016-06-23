@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RecommendSubjectsModel.h"
 
 @interface OthersTableViewCell : UITableViewCell
+
+- (void)fillCellWithModel:(RecommendSubjectsModel *)model;
 
 @end

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SuperBrandDataModel.h"
 
 @interface SuperBrandTableViewCell : UITableViewCell
+
+- (void)fillCellWithModel:(SuperBrandDataModel *)model;
 
 @end

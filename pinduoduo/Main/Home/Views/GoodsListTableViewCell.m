@@ -10,6 +10,7 @@
 
 @interface GoodsListTableViewCell ()
 
+@property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *goodsImageV;
 @property (nonatomic, strong) UILabel *goodsNameLbl;
 @property (nonatomic, strong) UIView *buyNowView;
@@ -40,8 +41,12 @@
         [obj removeFromSuperview];
     }];
     
+    self.bgView = [[UIView alloc] init];
+    _bgView.frame = CGRectMake(0, 10, SCREEN_WIDTH, 350);
+    _bgView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:_bgView];
+    
     _goodsImageV = [[UIImageView alloc] init];
-//    [_goodsImageV sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
     [_goodsImageV sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"default_load"]];
     // 2 商品名称
     _goodsNameLbl = [[UILabel alloc] init];

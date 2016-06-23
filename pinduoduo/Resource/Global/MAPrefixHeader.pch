@@ -21,6 +21,7 @@
 #import "UIImageView+WebCache.h"
 #import "JSONKit.h"
 #import "Masonry.h"
+#import "NSObject+modelConvertDic.h"
 
 #endif
 

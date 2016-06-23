@@ -9,6 +9,8 @@
 #import "othersCollectionViewCell.h"
 
 @implementation othersCollectionViewCell
+
+
 // 360
 /*
 10
@@ -26,28 +28,25 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        
+        //150 *280
         self.goodsImageV = [[UIImageView alloc]init];
-        self.goodsImageV.frame = CGRectMake(0, 0, 200, 200);
+        self.goodsImageV.frame = CGRectMake(0, 10, 150, 150);
         self.goodsImageV.layer.borderWidth = 1;
-        self.goodsImageV.layer.borderColor = RGBCOLOR(100, 100, 100).CGColor;
         
-        self.imageLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 210, 200, 50)];
-        self.imageLbl.textAlignment = NSTextAlignmentCenter;
+        self.imageLbl = [[UILabel alloc] initWithFrame:CGRectMake(5, 180, 140, 60)];
+        self.imageLbl.textAlignment = NSTextAlignmentLeft;
         self.imageLbl.textColor = [UIColor blackColor];
-        self.imageLbl.font = [UIFont systemFontOfSize:13];
-        self.imageLbl.numberOfLines = 0;
+        self.imageLbl.font = [UIFont systemFontOfSize:15];
+        self.imageLbl.numberOfLines = 3;
         
-        self.priceLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 270, 200, 20)];
+        self.priceLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, 150, 30)];
         self.priceLbl.textAlignment = NSTextAlignmentLeft;
         self.priceLbl.textColor = [UIColor redColor];
-        self.priceLbl.font = [UIFont systemFontOfSize:15];
+        self.priceLbl.font = [UIFont systemFontOfSize:17];
         
         [self addSubview:self.goodsImageV];
         [self addSubview:self.imageLbl];
         [self addSubview:self.priceLbl];
-        
-        [self commitInitData];
     }
     return self;
 }
