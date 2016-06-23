@@ -69,8 +69,10 @@
             
             NSString *value = [NSString stringWithFormat:@"%@",dic[keys[i]]];
             
-            [self performSelector:setSel withObject:value afterDelay:[NSThread isMainThread]];
-            
+//            [self performSelector:setSel withObject:value afterDelay:1];
+//            [self setValue:value forKeyPath:keys[i]];
+            [self setValue:value forKey:keys[i]];
+
         }
         
     }
@@ -79,8 +81,12 @@
 
 - (SEL)createSetterWithPropertyName:(NSString *)propertyName
 {
-    propertyName = propertyName.capitalizedString;
-    propertyName =[NSString stringWithFormat:@"set%@",propertyName];
+    NSMutableString *mpropertyName = [propertyName mutableCopy];
+   NSString *first =  [mpropertyName substringWithRange:NSMakeRange(0, 1)];
+    first = first.capitalizedString;
+    [mpropertyName replaceCharactersInRange:NSMakeRange(0, 1) withString:first];
+//    propertyName = propertyName.capitalizedString;
+    propertyName =[NSString stringWithFormat:@"set%@:",mpropertyName];
     return NSSelectorFromString(propertyName);
 }
 

@@ -54,7 +54,6 @@
     _goodsNameLbl.numberOfLines = 0;
     _goodsNameLbl.textColor = [UIColor blackColor];
     _goodsNameLbl.text = model.goods_name;
-//    _goodsImageV.alpha = 0.2;
     // 3 商品描述
     _buyNowView = [[UIView alloc] init];
     _buyNowView.backgroundColor = RGBCOLOR(79, 79, 79);

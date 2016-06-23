@@ -110,7 +110,7 @@ static NSString *collectionID = @"MItem";
     self.itemCount = 10;
     _flowLayout = [[UICollectionViewFlowLayout alloc] init];
     _flowLayout.minimumLineSpacing = 0;
-    _flowLayout.minimumInteritemSpacing = 5;
+    _flowLayout.minimumInteritemSpacing = 0;
     _flowLayout.itemSize = CGSizeMake(collectionH, collectionH);
     _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
@@ -190,9 +190,10 @@ static NSString *collectionID = @"MItem";
             NSDictionary *dic = dataArr[i];
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
 //            [subjectModel setValuesForKeysWithDictionary:dic];
-            [subjectModel assginToPropertyWithDic:dic];
+                [subjectModel assginToPropertyWithDic:dic];
             [_subjectModelMArr addObject:subjectModel];
         }
+        NSLog(@"_subjectModelMArr=%@",_subjectModelMArr);
         [self showScrollView];
         
     }];
@@ -253,6 +254,7 @@ static NSString *collectionID = @"MItem";
                     NSDictionary *dic = goods[i];
 //                    [goodsModel setValuesForKeysWithDictionary:dic];
                     [goodsModel assginToPropertyWithDic:dic];
+                    [goodsModel dictionaryFromModelWithShowLog:YES];
                     [goodsMArr addObject:goodsModel];
                 }
                 recommendModel.goodlistArr = goodsMArr;
@@ -389,7 +391,7 @@ static NSString *collectionID = @"MItem";
 //        
 //        }
 
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"default_load"]];
         
         [_homeScrollView addSubview:imageView];
         [self startTimer];
@@ -510,7 +512,7 @@ static NSString *collectionID = @"MItem";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < (1+7)*5  && (indexPath.row + 1) % 5 == 0 ) {
+    if (indexPath.row < (1+8)*5  && (indexPath.row + 1) % 5 == 0 ) {
         if (indexPath.row == 4) {
             //超级大牌 cell
             static NSString *superCellID = @"super";
@@ -524,7 +526,8 @@ static NSString *collectionID = @"MItem";
             cell.backgroundColor = RGBCOLOR(240, 240, 240);
             return cell;
             
-        }else{
+        }else {
+            //if (indexPath.row == 9 || indexPath.row == 14||indexPath.row == 19||indexPath.row == 24||indexPath.row == 29||indexPath.row == 34||indexPath.row == 39)
             //recommend cell
             static NSString *othersCellID = @"recommend";
             OthersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:othersCellID];
@@ -538,7 +541,8 @@ static NSString *collectionID = @"MItem";
             return cell;
         }
     
-    }else{
+    }
+else{
         //GoodsList cell
         static NSString *maincellID = @"main";
         GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:maincellID];
