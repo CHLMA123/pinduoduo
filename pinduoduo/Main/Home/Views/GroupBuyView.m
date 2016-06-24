@@ -160,7 +160,7 @@
 {
     if (_block == nil) {
         
-//        __weak typeof(GroupBuyView) *weakself = self;
+        //__weak typeof(GroupBuyView) *weakself = self;
         __block GroupBuyView *weakSelf = self;
         _block = ^(MobileAppGroupsModel *model){
             

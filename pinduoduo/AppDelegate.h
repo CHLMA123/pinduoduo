@@ -10,13 +10,11 @@
 #import <CoreData/CoreData.h>
 #import "BaseTabBarController.h"
 
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) BaseTabBarController *rootViewController;
 @property (assign, nonatomic) NSString *curNetworkStatus;//当前网络状态
-
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

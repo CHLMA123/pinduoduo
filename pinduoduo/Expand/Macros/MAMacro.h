@@ -112,7 +112,7 @@ NSLog((@"%@(%d) " fmt), [file lastPathComponent], __LINE__, ##__VA_ARGS__); \
 #define SIMULATOR 0
 #endif
 
-
+#define showModelContent(model) [AssistantTool dictionaryFromModel:model]
 
 
 

@@ -30,16 +30,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        [self commitInitData];
+        [self commitInitView];
     }
     return self;
 }
 
-- (void)fillCellWithModel:(GoodsListDataModel *)model{
-    // 1 商品图片
-    [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
+- (void)commitInitView{
     
     self.bgView = [[UIView alloc] init];
     _bgView.frame = CGRectMake(0, 10, SCREEN_WIDTH, 350);
@@ -47,13 +43,12 @@
     [self.contentView addSubview:_bgView];
     
     _goodsImageV = [[UIImageView alloc] init];
-    [_goodsImageV sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"default_load"]];
+    _goodsImageV.alpha = 0.25;
     // 2 商品名称
     _goodsNameLbl = [[UILabel alloc] init];
     _goodsNameLbl.backgroundColor = [UIColor whiteColor];
     _goodsNameLbl.numberOfLines = 0;
     _goodsNameLbl.textColor = [UIColor blackColor];
-    _goodsNameLbl.text = model.goods_name;
     // 3 商品描述
     _buyNowView = [[UIView alloc] init];
     _buyNowView.backgroundColor = RGBCOLOR(79, 79, 79);
@@ -63,10 +58,8 @@
     _customerImageV.image = [UIImage imageNamed:@"group"];
     _customerNumLbl = [[UILabel alloc] init];
     _customerNumLbl.textColor = [UIColor whiteColor];
-    _customerNumLbl.text = [NSString stringWithFormat:@"%@人团", model.customer_num];
     _priceLbl = [[UILabel alloc] init];
     _priceLbl.textColor = [UIColor whiteColor];
-    _priceLbl.text = [NSString stringWithFormat:@"%@", model.price];
     _goBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_goBuyBtn setImage:[UIImage imageNamed:@"arrow_right"] forState:UIControlStateNormal];
     [_goBuyBtn setImageEdgeInsets: UIEdgeInsetsMake(0, 60, 0, 0)];
@@ -98,8 +91,15 @@
     
 }
 
-
-- (void)commitInitData{
+- (void)fillCellWithModel:(GoodsListDataModel *)model{
+    // 1 商品图片
+    //    [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    //        [obj removeFromSuperview];
+    //    }];
+    [_goodsImageV sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"default_load"]];
+    _goodsNameLbl.text = model.goods_name;
+    _customerNumLbl.text = [NSString stringWithFormat:@"%@人团", model.customer_num];
+    _priceLbl.text = [NSString stringWithFormat:@"%@", model.price];
     
 }
 

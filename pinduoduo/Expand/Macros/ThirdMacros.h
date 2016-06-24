@@ -9,8 +9,7 @@
 #ifndef ThirdMacros_h
 #define ThirdMacros_h
 
-//友盟统计SDK的key
-#define kUmengKey @"53290df956240b6b4a0084b3"
+// eg:友盟统计SDK的key
 
 
 #endif /* ThirdMacros_h */

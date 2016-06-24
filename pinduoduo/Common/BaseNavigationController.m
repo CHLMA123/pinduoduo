@@ -60,7 +60,7 @@
 - (void)createrightBarItemWithViewController:(UIViewController *)viewController{
     
     UIButton *backItem = [UIButton buttonWithType:UIButtonTypeCustom];
-    backItem.frame = CGRectMake(SCREEN_WIDTH - 42, 0, 42.f, 42.f);
+    backItem.frame = CGRectMake(SCREEN_WIDTH - 42, 6, 32.f, 32.f);
     [backItem setImage:[UIImage imageNamed:@"share_button"] forState:UIControlStateNormal];
     [backItem addTarget:self action:@selector(backToParentView) forControlEvents:UIControlEventTouchUpInside];
     [backItem setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -85,7 +85,7 @@
 //    [backItem addSubview:backImageView];
     
     UIButton *backItem = [UIButton buttonWithType:UIButtonTypeCustom];
-    backItem.frame = CGRectMake(0, 0, 42.f, 42.f);
+    backItem.frame = CGRectMake(0, 6, 32.f, 32.f);
     [backItem setImage:[UIImage imageNamed:@"btn_backItem"] forState:UIControlStateNormal];
     [backItem addTarget:self action:@selector(backToParentView) forControlEvents:UIControlEventTouchUpInside];
 //    [backItem setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 18)];

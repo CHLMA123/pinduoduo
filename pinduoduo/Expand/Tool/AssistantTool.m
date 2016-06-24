@@ -9,25 +9,21 @@
 #import "AssistantTool.h"
 
 @implementation AssistantTool
+
 + (void)dictionaryFromModel:(id)model
 {
     
     if (model == nil) {
-        
         NSLog(@"%@ To dic = nil",NSStringFromClass([model class]));
         return;
     }
-    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    
     // 获取类名/根据类名获取类对象
     NSString *className = NSStringFromClass([model class]);
     id classObject = objc_getClass([className UTF8String]);
-    
     // 获取所有属性
     unsigned int count = 0;
     objc_property_t *properties = class_copyPropertyList(classObject, &count);
-    
     // 遍历所有属性
     for (int i = 0; i < count; i++) {
         // 取得属性
@@ -50,10 +46,8 @@
         [dict setObject:propertyValue forKey:propertyName];
     }
     
-    
     NSLog(@"%@ To dic = %@",NSStringFromClass([model class]),dict);
-    
-    
 }
+
 
 @end

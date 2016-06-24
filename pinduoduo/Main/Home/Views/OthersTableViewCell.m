@@ -102,8 +102,8 @@ static NSString *cellID = @"otherItem";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
-//    return self.goodsListArr.count;
+//    return 10;
+    return self.goodsListArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

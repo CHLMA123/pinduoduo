@@ -22,7 +22,7 @@
 #import "JSONKit.h"
 #import "Masonry.h"
 #import "NSObject+modelConvertDic.h"
-
+#import "MJRefresh.h"
 #endif
 
 

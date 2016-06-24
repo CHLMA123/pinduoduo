@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (modelConvertDic)
+
+// 模型转字典
 - (NSDictionary *)dictionaryFromModelWithShowLog:(BOOL)show;
+
+// 字典转模型1
 - (void)assginToPropertyWithDic:(NSDictionary *)dic;
+
+// 字典转模型2
++ (instancetype)objectWithDict:(NSDictionary *)dict;
+
 @end

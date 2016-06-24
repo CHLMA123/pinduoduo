@@ -13,8 +13,8 @@
 #import <Foundation/Foundation.h>
 #import  <objc/runtime.h>
 @interface AssistantTool : NSObject
-// 数据模型转字典 方便输出数据模型
-+(void)dictionaryFromModel:(id)model;
 
+// 数据模型转字典 输出数据模型 方便调试
++ (void)dictionaryFromModel:(id)model;
 
 @end

@@ -1,23 +1,25 @@
 //
-//  PersonalViewController.m
+//  PushViewController.m
 //  pinduoduo
 //
-//  Created by MCL on 16/6/18.
+//  Created by MCL on 16/6/24.
 //  Copyright © 2016年 CHLMA. All rights reserved.
 //
 
-#import "PersonalViewController.h"
+#import "PushViewController.h"
 
-@interface PersonalViewController ()
+@interface PushViewController ()
 
 @end
 
-@implementation PersonalViewController
+@implementation PushViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.25];
+    self.title = @"***试试侧滑返回吧***";
+    self.view.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.25];
+    
 }
 
 - (void)didReceiveMemoryWarning {
