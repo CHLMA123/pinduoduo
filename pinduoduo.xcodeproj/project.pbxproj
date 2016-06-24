@@ -198,6 +198,7 @@
 		366C47B41D14008F00BE790E /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47AF1D14008F00BE790E /* search.png */; };
 		366C47B61D14008F00BE790E /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B11D14008F00BE790E /* person.png */; };
 		366C47B71D14008F00BE790E /* SuperBrand.png in Resources */ = {isa = PBXBuildFile; fileRef = 366C47B21D14008F00BE790E /* SuperBrand.png */; };
+		36782FF81D1D1E8300D294DD /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36782FF71D1D1E8300D294DD /* silence.mp3 */; };
 		369E908E1D18CAE6009CFD08 /* MACarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 369E908D1D18CAE6009CFD08 /* MACarouselView.m */; };
 		36A2BD311D1CD17B00B9EB38 /* NSObject+modelConvertDic.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A2BD301D1CD17B00B9EB38 /* NSObject+modelConvertDic.m */; };
 		36A2BD5F1D1CD1EF00B9EB38 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A2BD351D1CD1EF00B9EB38 /* MJRefreshAutoFooter.m */; };
@@ -511,6 +512,7 @@
 		366C47AF1D14008F00BE790E /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		366C47B11D14008F00BE790E /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
 		366C47B21D14008F00BE790E /* SuperBrand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SuperBrand.png; sourceTree = "<group>"; };
+		36782FF71D1D1E8300D294DD /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		369E908C1D18CAE6009CFD08 /* MACarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACarouselView.h; sourceTree = "<group>"; };
 		369E908D1D18CAE6009CFD08 /* MACarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACarouselView.m; sourceTree = "<group>"; };
 		36A2BD2F1D1CD17B00B9EB38 /* NSObject+modelConvertDic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+modelConvertDic.h"; sourceTree = "<group>"; };
@@ -715,8 +717,6 @@
 				366C45C11D13DA3300BE790E /* AppDelegate.h */,
 				366C45C21D13DA3300BE790E /* AppDelegate.m */,
 				366C461B1D13DF8A00BE790E /* MAPrefixHeader.pch */,
-				366C45C41D13DA3300BE790E /* ViewController.h */,
-				366C45C51D13DA3300BE790E /* ViewController.m */,
 				366C45CA1D13DA3300BE790E /* pinduoduo.xcdatamodeld */,
 				366C45BE1D13DA3300BE790E /* Supporting Files */,
 			);
@@ -726,6 +726,9 @@
 		366C45BE1D13DA3300BE790E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				36782FF61D1D1E8300D294DD /* Mp3 */,
+				366C45C41D13DA3300BE790E /* ViewController.h */,
+				366C45C51D13DA3300BE790E /* ViewController.m */,
 				366C461A1D13DF8A00BE790E /* MineImage */,
 				366C46191D13DF8A00BE790E /* Resource */,
 				366C45BF1D13DA3300BE790E /* main.m */,
@@ -1316,6 +1319,14 @@
 			path = Expand/Manager;
 			sourceTree = "<group>";
 		};
+		36782FF61D1D1E8300D294DD /* Mp3 */ = {
+			isa = PBXGroup;
+			children = (
+				36782FF71D1D1E8300D294DD /* silence.mp3 */,
+			);
+			path = Mp3;
+			sourceTree = "<group>";
+		};
 		36A2BD2E1D1CD17B00B9EB38 /* NSObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -1728,6 +1739,7 @@
 				366C478A1D13DF8A00BE790E /* superbrand_soldout@2x.png in Resources */,
 				366C47651D13DF8A00BE790E /* personal_order_unpay@2x.png in Resources */,
 				366C476D1D13DF8A00BE790E /* phone-login-agree@2x.png in Resources */,
+				36782FF81D1D1E8300D294DD /* silence.mp3 in Resources */,
 				366C47871D13DF8A00BE790E /* splash-5.png in Resources */,
 				366C47181D13DF8A00BE790E /* default_load@2x.png in Resources */,
 				366C474F1D13DF8A00BE790E /* personal_header_avatar_logo@2x.png in Resources */,
