@@ -727,12 +727,12 @@
 			isa = PBXGroup;
 			children = (
 				36782FF61D1D1E8300D294DD /* Mp3 */,
-				366C45C41D13DA3300BE790E /* ViewController.h */,
-				366C45C51D13DA3300BE790E /* ViewController.m */,
 				366C461A1D13DF8A00BE790E /* MineImage */,
 				366C46191D13DF8A00BE790E /* Resource */,
 				366C45BF1D13DA3300BE790E /* main.m */,
 				366C45D21D13DA3300BE790E /* Info.plist */,
+				366C45C41D13DA3300BE790E /* ViewController.h */,
+				366C45C51D13DA3300BE790E /* ViewController.m */,
 				366C45CD1D13DA3300BE790E /* Assets.xcassets */,
 				366C45C71D13DA3300BE790E /* Main.storyboard */,
 				366C45CF1D13DA3300BE790E /* LaunchScreen.storyboard */,
@@ -2005,6 +2005,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pinduoduo/Resource/Global/MAPrefixHeader.pch";
 				INFOPLIST_FILE = pinduoduo/Info.plist;
@@ -2019,6 +2020,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pinduoduo/Resource/Global/MAPrefixHeader.pch";
 				INFOPLIST_FILE = pinduoduo/Info.plist;

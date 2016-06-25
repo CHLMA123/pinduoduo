@@ -40,6 +40,7 @@ static NSInteger page = 0;//下拉刷新的次数
 @property (nonatomic, assign) NSInteger itemCount;
 @property (nonatomic, strong) NSArray *itemArray;//collectionView 的数据源
 @property (nonatomic, strong) UIView *headerView;//tableView 的headerView
+@property (nonatomic, strong) UIButton *backToTopBtn;
 
 ////下载的图片字典
 //@property (nonatomic, strong) NSMutableDictionary *imageDic;
@@ -91,7 +92,7 @@ static NSInteger page = 0;//下拉刷新的次数
     _mainTableView.delegate = self;
     _mainTableView.dataSource = self;
     _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    _mainTableView.tag = 2001;
     self.mainTableView.tableHeaderView = _headerView;
     
     _mainTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
@@ -99,9 +100,29 @@ static NSInteger page = 0;//下拉刷新的次数
     }];
     [self.view addSubview:self.mainTableView];
     
+    self.backToTopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _backToTopBtn.frame = CGRectMake(SCREEN_WIDTH - 50, SCREEN_HEIGHT - 200, 40, 40);
+    _backToTopBtn.layer.cornerRadius = 20;
+    _backToTopBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    _backToTopBtn.clipsToBounds = YES;
+    _backToTopBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    _backToTopBtn.hidden = YES;
+    [_backToTopBtn setBackgroundImage:[UIImage imageNamed:@"go_top"] forState:UIControlStateNormal];
+    [_backToTopBtn setTitle:@"回顶部" forState:UIControlStateNormal];
+    [_backToTopBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_backToTopBtn setTitleEdgeInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
+    [_backToTopBtn addTarget:self action:@selector(backToTopAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_backToTopBtn];
+}
+
+- (void)backToTopAction{
+    
+    self.mainTableView.contentOffset = CGPointZero;
+    _backToTopBtn.hidden = YES;
 }
 
 - (void)setupTableHeaserView{
+    
     self.homeScrollView = [[UIScrollView alloc] init];
     _homeScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 220);
     _homeScrollView.backgroundColor = [UIColor lightGrayColor];
@@ -353,7 +374,7 @@ static NSInteger page = 0;//下拉刷新的次数
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    LOG_METHOD;
+
     if (scrollView.tag == 2000) {
         CGFloat offsetX = scrollView.contentOffset.x;
         int page = offsetX / SCREEN_WIDTH;
@@ -362,32 +383,43 @@ static NSInteger page = 0;//下拉刷新的次数
             [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
             self.pageControl.currentPage = 0;
         }
+    }else{
+        CGFloat offsetY = scrollView.contentOffset.y;
+        if (offsetY > SCREEN_HEIGHT * 3) {
+            _backToTopBtn.hidden = NO;
+        }
     }
 }
 
+//用手开始拖拽的时候，就停止定时器，不然用户拖拽的时候，也会出现换页的情况
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-//    LOG_METHOD;
+    
     if (scrollView.tag == 2000) {
         [self stopTimer];
     }
 
 }
 
+//用户停止拖拽的时候，就启动定时器
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    LOG_METHOD;
+    
     if (scrollView.tag == 2000) {
         [self startTimer];
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//定时器滚动scrollview停止的时候，显示下一张图片
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-//    LOG_METHOD;
+
+}
+
+//手指拖动scroll停止的时候，显示下一张图片
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     
     if (scrollView.tag == 2000) {
         CGPoint currentLocation = scrollView.contentOffset;
-        CGFloat offsetx = currentLocation.x + SCREEN_WIDTH;
-        if (offsetx/SCREEN_WIDTH == 6) {//判断是否已经翻到最后
+        if (currentLocation.x/SCREEN_WIDTH == 6) {//判断是否已经翻到最后
             //将当前位置设置为原来的第一张图片
             [scrollView setContentOffset:CGPointMake(SCREEN_WIDTH, 0) animated:NO];
             _pageControl.currentPage = 0;
@@ -404,8 +436,8 @@ static NSInteger page = 0;//下拉刷新的次数
    
     }
     
-    
 }
+
 #pragma mark - timer
 - (void)startTimer{
     //只有一张图片

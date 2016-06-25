@@ -6,7 +6,7 @@
 //  Copyright © 2016年 CHLMA. All rights reserved.
 //
 
-#import "MACarouselView.h"
+#import "MACarouselView.h" //没有使用 参考别人的代码
 
 static int const ImageViewCount = 3;
 
