@@ -43,7 +43,7 @@
     [self.contentView addSubview:_bgView];
     
     _goodsImageV = [[UIImageView alloc] init];
-    _goodsImageV.alpha = 0.25;
+//    _goodsImageV.alpha = 0.25;
     // 2 商品名称
     _goodsNameLbl = [[UILabel alloc] init];
     _goodsNameLbl.backgroundColor = [UIColor whiteColor];
