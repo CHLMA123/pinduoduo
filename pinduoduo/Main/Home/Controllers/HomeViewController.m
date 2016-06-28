@@ -186,6 +186,7 @@ static NSInteger page = 0;//下拉刷新的次数
 }
 
 #pragma mark - 获取网络数据
+
 - (void)getNetworkData{
     NSLog(@"当前设备网络状态: %@", [AppDelegate appDelegate].curNetworkStatus);
     [self getSubjectData];
@@ -196,7 +197,6 @@ static NSInteger page = 0;//下拉刷新的次数
     NSString *urlSubject = @"http://apiv2.yangkeduo.com/subjects";
     [[NetworkHelper sharedManager] getWithURL:urlSubject WithParmeters:nil compeletionWithBlock:^(id obj) {
         
-        //NSLog(@"---getSubjectData--- obj = %@",obj);
         NSArray *dataArr = obj;
         // *1 获取数据源
         for (int i = 0; i < dataArr.count; i ++) {
@@ -296,6 +296,7 @@ static NSInteger page = 0;//下拉刷新的次数
         NSArray *goods_list = [dataDic objectForKey:@"goods_list"];
         for (int i = 0; i < goods_list.count; i ++) {
             NSDictionary *dic = goods_list[i];
+            showDicProperty(dic);
             GoodsListDataModel *model = [[GoodsListDataModel alloc] init];
             [model assginToPropertyWithDic:dic];
             [_goodslistMArr addObject:model];
@@ -499,11 +500,7 @@ static NSInteger page = 0;//下拉刷新的次数
     if (indexPath.row < (1+8)*5  && (indexPath.row + 1) % 5 == 0 ) {
         if (indexPath.row == 4) {
             //超级大牌 cell
-            static NSString *superCellID = @"super";
-            SuperBrandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:superCellID];
-            if (cell == nil) {
-                cell = [[SuperBrandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:superCellID];
-            }
+            SuperBrandTableViewCell *cell = [SuperBrandTableViewCell cellWithTableView:tableView];
             SuperBrandDataModel *superModel = self.goodslistMArr[indexPath.row];
             [cell fillCellWithModel:superModel];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -512,11 +509,7 @@ static NSInteger page = 0;//下拉刷新的次数
             
         }else {
             //recommend cell
-            static NSString *othersCellID = @"recommend";
-            OthersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:othersCellID];
-            if (cell == nil) {
-                cell = [[OthersTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:othersCellID];
-            }
+            OthersTableViewCell *cell = [OthersTableViewCell cellWithTableView:tableView];
             RecommendSubjectsModel *recommendModel = self.goodslistMArr[indexPath.row];
             [cell fillCellWithModel:recommendModel];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -526,11 +519,7 @@ static NSInteger page = 0;//下拉刷新的次数
     
     }else{
         //GoodsList cell
-        static NSString *maincellID = @"main";
-        GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:maincellID];
-        if (!cell) {
-            cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:maincellID];
-        }
+        GoodsListTableViewCell *cell = [GoodsListTableViewCell cellWithTableView:tableView];
         [cell fillCellWithModel:self.goodslistMArr[indexPath.row]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = RGBCOLOR(240, 240, 240);

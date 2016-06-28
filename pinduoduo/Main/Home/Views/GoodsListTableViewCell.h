@@ -11,6 +11,8 @@
 
 @interface GoodsListTableViewCell : UITableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView;
+
 - (void)fillCellWithModel:(GoodsListDataModel *)model;
 
 @end

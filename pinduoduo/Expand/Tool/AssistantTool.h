@@ -17,4 +17,14 @@
 // 数据模型转字典 输出数据模型 方便调试
 + (void)dictionaryFromModel:(id)model;
 
+// 根据网络返回数据的字典 输出对应的类的属性列表 eg:
+/*
+ @property (nonatomic,   copy) NSNumber *is_app;
+ @property (nonatomic,   copy) NSNumber *normal_price;
+ @property (nonatomic,   copy) NSNumber *event_type;
+ @property (nonatomic, strong) NSString *image_url;
+ @property (nonatomic, strong) NSDictionary *group;
+ */
++ (void)writeInfoWithDict:(NSDictionary *)dict;
+
 @end

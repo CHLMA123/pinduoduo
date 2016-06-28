@@ -25,6 +25,15 @@
 
 @implementation GoodsListTableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView{
+    static NSString *maincellID = @"GoodsList";
+    GoodsListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:maincellID];
+    if (!cell) {
+        cell = [[GoodsListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:maincellID];
+    }
+    return cell;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -92,10 +101,7 @@
 }
 
 - (void)fillCellWithModel:(GoodsListDataModel *)model{
-    // 1 商品图片
-    //    [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-    //        [obj removeFromSuperview];
-    //    }];
+    
     [_goodsImageV sd_setImageWithURL:[NSURL URLWithString:model.image_url] placeholderImage:[UIImage imageNamed:@"default_load"]];
     _goodsNameLbl.text = model.goods_name;
     _customerNumLbl.text = [NSString stringWithFormat:@"%@人团", model.customer_num];

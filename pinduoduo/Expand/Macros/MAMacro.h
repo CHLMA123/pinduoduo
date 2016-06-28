@@ -113,7 +113,7 @@ NSLog((@"%@(%d) " fmt), [file lastPathComponent], __LINE__, ##__VA_ARGS__); \
 #endif
 
 #define showModelContent(model) [AssistantTool dictionaryFromModel:model]
-
+#define showDicProperty(dic) [AssistantTool writeInfoWithDict:dic]
 
 
 

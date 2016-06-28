@@ -49,5 +49,30 @@
     NSLog(@"%@ To dic = %@",NSStringFromClass([model class]),dict);
 }
 
+#pragma mark - ******************** 通过此方法打印出成员变量
++ (void)writeInfoWithDict:(NSDictionary *)dict
+{
+    NSMutableString *strM = [NSMutableString string];
+    
+    [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@" ---2016--- %@,%@",key,[obj class]);
+        
+        NSString *className = NSStringFromClass([obj class]) ;
+        
+        if ([className isEqualToString:@"__NSCFString"] | [className isEqualToString:@"__NSCFConstantString"] ) {
+            [strM appendFormat:@"@property (nonatomic, strong) NSString *%@;\n",key];
+        }else if ([className isEqualToString:@"__NSCFArray"]){
+            [strM appendFormat:@"@property (nonatomic, strong) NSArray *%@;\n",key];
+        }else if ([className isEqualToString:@"__NSCFNumber"]){
+            [strM appendFormat:@"@property (nonatomic,   copy) NSNumber *%@;\n",key];
+        }else if ([className isEqualToString:@"__NSCFBoolean"]){
+            [strM appendFormat:@"@property (nonatomic, assign) BOOL %@;\n",key];
+        }else if ([className isEqualToString:@"__NSCFDictionary"]){
+            [strM appendFormat:@"@property (nonatomic, strong) NSDictionary *%@;\n",key];
+        }
+        NSLog(@"\n%@",strM);
+    }];
+    
+}
 
 @end

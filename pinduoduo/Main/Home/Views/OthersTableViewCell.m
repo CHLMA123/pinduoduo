@@ -27,23 +27,40 @@ static NSString *cellID = @"otherItem";
 
 @implementation OthersTableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView{
+    
+    static NSString *othersCellID = @"recommend";
+    OthersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:othersCellID];
+    if (cell == nil) {
+        cell = [[OthersTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:othersCellID];
+    }
+    return cell;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self commitInitData];
+        [self commitInitView];
     }
     return self;
 }
 
+
+
 - (void)fillCellWithModel:(RecommendSubjectsModel *)model{
-    
-    [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
     
     _subjectModel = model.goodSubjectModel;
     _goodsListArr = model.goodlistArr;
+    
+    _titleLbl.text = _subjectModel.subject;
+//    [self.collectionV reloadData];
+}
+
+- (void)commitInitView{
+    
+    self.subjectModel = [[GoodsSubjectModel alloc] init];
+    self.goodsListArr = [NSArray array];
     
     self.bgView = [[UIView alloc] init];
     _bgView.frame = CGRectMake(0, 10, SCREEN_WIDTH, 350);
@@ -54,7 +71,6 @@ static NSString *cellID = @"otherItem";
     _titleLbl.frame = CGRectMake(10, 10, SCREEN_WIDTH - 125 - 10, 60);
     _titleLbl.textColor = [UIColor blackColor];
     _titleLbl.textAlignment = NSTextAlignmentLeft;
-    _titleLbl.text = _subjectModel.subject;
     _titleLbl.font = [UIFont systemFontOfSize:19];
     
     self.seeMoreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -102,7 +118,6 @@ static NSString *cellID = @"otherItem";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//    return 10;
     return self.goodsListArr.count;
 }
 
@@ -122,11 +137,6 @@ static NSString *cellID = @"otherItem";
 }
 
 
-- (void)commitInitData{
-    self.subjectModel = [[GoodsSubjectModel alloc] init];
-    self.goodsListArr = [NSArray array];
-    
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];

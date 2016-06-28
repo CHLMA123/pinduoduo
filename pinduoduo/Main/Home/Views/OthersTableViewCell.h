@@ -11,6 +11,8 @@
 
 @interface OthersTableViewCell : UITableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView;
+
 - (void)fillCellWithModel:(RecommendSubjectsModel *)model;
 
 @end

@@ -16,6 +16,8 @@
 @property (nonatomic, strong)NSString *image_url;
 @property (nonatomic, strong)NSString *is_app;
 @property (nonatomic, strong)NSString *event_type;
+
+@property (nonatomic, strong)NSDictionary *group;
 // group
 @property (nonatomic, strong)NSString *price;
 @property (nonatomic, strong)NSString *customer_num;
@@ -30,6 +32,8 @@
 #pragma ExpandItems - home_super_brand
 @property (nonatomic, strong)NSString *market_price;
 @property (nonatomic, strong)NSString *promotion_goods;
+
++ (instancetype)detailWithDict:(NSDictionary *)dict;
 
 @end
 

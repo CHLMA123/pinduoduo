@@ -28,6 +28,18 @@
 
 @end
 
+
+//@property (nonatomic,   copy) NSNumber *home_banner_width;
+//@property (nonatomic,   copy) NSNumber *position;
+//@property (nonatomic,   copy) NSString *second_name;
+//@property (nonatomic,   copy) NSNumber *home_banner_height;
+//@property (nonatomic,   copy) NSString *subject;
+//@property (nonatomic,   copy) NSNumber *subject_id;
+//@property (nonatomic,   copy) NSString *home_banner;
+//@property (nonatomic,   copy) NSString *desc;
+//@property (nonatomic,   copy) NSString *share_image;
+
+
 /*
  home_super_brand
 {

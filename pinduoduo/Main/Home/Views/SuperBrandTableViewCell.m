@@ -46,6 +46,15 @@
 
 @implementation SuperBrandTableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView{
+    static NSString *superCellID = @"super";
+    SuperBrandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:superCellID];
+    if (cell == nil) {
+        cell = [[SuperBrandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:superCellID];
+    }
+    return cell;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

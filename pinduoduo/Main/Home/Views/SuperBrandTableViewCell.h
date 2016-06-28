@@ -11,6 +11,8 @@
 
 @interface SuperBrandTableViewCell : UITableViewCell
 
++ (instancetype)cellWithTableView:(UITableView *)tableView;
+
 - (void)fillCellWithModel:(SuperBrandDataModel *)model;
 
 @end
