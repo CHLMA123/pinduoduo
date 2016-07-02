@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong)GoodsSubjectModel *goodSubjectModel;
 @property (nonatomic, strong)NSArray *goodlistArr;
+@property (nonatomic, strong)NSString *position;
+@property (nonatomic, strong)NSString *cellIdentifier;
 
 @end
 

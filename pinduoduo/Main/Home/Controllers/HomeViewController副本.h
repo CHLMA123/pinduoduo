@@ -10,6 +10,4 @@
 
 @interface HomeViewController : BaseViewController
 
-@property (nonatomic, strong) NSMutableArray *positionArr;
-
 @end

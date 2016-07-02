@@ -42,6 +42,13 @@ static NSInteger page = 0;//下拉刷新的次数
 @property (nonatomic, strong) UIView *headerView;//tableView 的headerView
 @property (nonatomic, strong) UIButton *backToTopBtn;
 
+////下载的图片字典
+//@property (nonatomic, strong) NSMutableDictionary *imageDic;
+////下载图片的操作
+//@property (nonatomic, strong) NSMutableDictionary *operationDic;
+////任务队列
+//@property (nonatomic, strong) NSOperationQueue *queue;
+
 @end
 
 @implementation HomeViewController
@@ -53,7 +60,10 @@ static NSInteger page = 0;//下拉刷新的次数
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //[self setupCacheFolder];
+//    _imageDic = [NSMutableDictionary dictionary];
+//    _operationDic = [NSMutableDictionary dictionary];
+//    _queue = [[NSOperationQueue alloc] init];
+    [self setupCacheFolder];
 
     _subjectModelMArr = [NSMutableArray array];
     _goodslistMArr = [NSMutableArray array];
@@ -61,7 +71,6 @@ static NSInteger page = 0;//下拉刷新的次数
     _superbrandMArr = [NSMutableArray array];
     _mobileappgroupsMArr = [NSMutableArray array];
     _itemArray = [NSArray array];
-    _positionArr = [NSMutableArray array];
     
     //CollectionView的数据源
     [self setupCollectionData];
@@ -230,6 +239,42 @@ static NSInteger page = 0;//下拉刷新的次数
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.frame = CGRectMake((i+1) *SCREEN_WIDTH, 0, SCREEN_WIDTH, 220);
         imageView.tag = 100 + i;
+        
+//        //从内存缓存中取图片
+//        UIImage *image = [self.imageDic objectForKey:imageUrl];
+//        if (image) {
+//            imageView.image = image;
+//        }else{
+//            //从沙盒缓存中取图片
+//            NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+//            NSString *stringPath = [cache stringByAppendingPathComponent:[imageUrl lastPathComponent]];
+//            NSData *data = [NSData dataWithContentsOfFile:stringPath];
+//            if (data) {
+//                imageView.image = [UIImage imageWithData:data];
+//                [self.imageDic setObject:[UIImage imageWithData:data] forKey:imageUrl];
+//            }else{
+//               //下载图片
+//                NSBlockOperation *operationDownload = [self.operationDic objectForKey:imageUrl];
+//                if (!operationDownload) {
+//                    operationDownload = [NSBlockOperation blockOperationWithBlock:^{
+//                        NSURL *url = [NSURL URLWithString:imageUrl];
+//                        NSData *data = [NSData dataWithContentsOfURL:url];
+//                        if (data) {
+//                            imageView.image = [UIImage imageWithData:data];
+//                            [self.imageDic setObject:[UIImage imageWithData:data] forKey:imageUrl];
+//                            [data writeToFile:stringPath atomically:YES];
+//                            [self.operationDic removeObjectForKey:imageUrl];
+//                        }
+//                    }];
+//                    [self.queue addOperation:operationDownload];
+//                    [self.operationDic setObject:operationDownload forKey:imageUrl];
+//                }
+//                
+//            }
+//            
+//        
+//        }
+
         [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"default_load"]];
         
         [_homeScrollView addSubview:imageView];
@@ -242,10 +287,10 @@ static NSInteger page = 0;//下拉刷新的次数
     NSString *urlGoods = @"http://apiv2.yangkeduo.com/v2/goods?";
     NSDictionary *dic = @{@"size":@"50", @"page":@"1"};
     [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(id obj) {
-//        NSInteger k = 0 ;//记录数组插入元素的个数 0：首次插入 1：第二次插入 依次类推。。。
+        NSInteger k = 0 ;//记录数组插入元素的个数 0：首次插入 1：第二次插入 依次类推。。。
         NSLog(@"---getGoodListData--- obj = %@",obj);
         NSDictionary *dataDic = obj;
-        NSMutableArray *positionTemp = [NSMutableArray array];
+        
         //-------------------------------------------------------------------------------
         // 1 goods_list
         NSArray *goods_list = [dataDic objectForKey:@"goods_list"];
@@ -262,7 +307,7 @@ static NSInteger page = 0;//下拉刷新的次数
         NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
         for (int i = 0; i < arrHome_recommend_subjects.count; i ++) {
             NSDictionary *dic = arrHome_recommend_subjects[i];
-            SuperBrandDataModel *recommendModel = [[SuperBrandDataModel alloc] init];
+            RecommendSubjectsModel *recommendModel = [[RecommendSubjectsModel alloc] init];
             // 2.1 recommendModel.goodSubjectModel
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
             [subjectModel assginToPropertyWithDic:dic];
@@ -277,23 +322,12 @@ static NSInteger page = 0;//下拉刷新的次数
                 [goodsMArr addObject:goodsModel];
             }
             recommendModel.goodlistArr = goodsMArr;
-            recommendModel.position = subjectModel.position;
-            recommendModel.cellIdentifier = @"recommend";
             
             [_recommendsubjectsMArr addObject:recommendModel];
-    
-            [positionTemp addObject:recommendModel];
-            
-            //DEBUG 所需
-            {
-                NSInteger insertIndex = [subjectModel.position integerValue];
-                NSLog(@"inserIndex : %ld", (long)insertIndex);
-            }
-            
-//            NSInteger inserIndex = [subjectModel.position integerValue] +k;
-//            NSLog(@"inserIndex : %ld", (long)inserIndex);
-//            [_goodslistMArr insertObject:recommendModel atIndex:inserIndex];
-//            k ++;
+            NSInteger inserIndex = [subjectModel.position integerValue] +k;
+            NSLog(@"inserIndex : %ld", (long)inserIndex);
+            [_goodslistMArr insertObject:recommendModel atIndex:inserIndex];
+            k ++;
         }
         
         //-------------------------------------------------------------------------------
@@ -316,54 +350,12 @@ static NSInteger page = 0;//下拉刷新的次数
                 [goodsMArr addObject:goodsModel];
             }
             superbrandModel.goodlistArr = goodsMArr;
-            superbrandModel.position = subjectModel.position;
-            superbrandModel.cellIdentifier = @"superbrand";
+            
             [_superbrandMArr addObject:superbrandModel];
-    
-            [positionTemp addObject:superbrandModel];
-            
-            
-            
-//            NSInteger inserIndex = [subjectModel.position integerValue];
-//            NSLog(@"inserIndex : %ld", (long)inserIndex);
-//            [_goodslistMArr insertObject:superbrandModel atIndex:inserIndex];
+            NSInteger inserIndex = [subjectModel.position integerValue];
+            NSLog(@"inserIndex : %ld", (long)inserIndex);
+            [_goodslistMArr insertObject:superbrandModel atIndex:inserIndex];
         }
-        
-
-
-        [positionTemp sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-         
-            SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj1;
-            SuperBrandDataModel *model2 = (SuperBrandDataModel *)obj2;
-            return ([model1.position intValue] > [model2.position intValue])?1:-1;
-            
-//            if ([model1.position compare:model2.position] == NSOrderedAscending) {
-//                
-//                return NSOrderedAscending;
-//            }
-//            else if ([model1.position compare:model2.position] == NSOrderedDescending) {
-//                
-//                return NSOrderedDescending;
-//            }
-//            else
-//            {
-//                return NSOrderedSame;
-//            }
-            
-            
-            
-        }];
-        
-        
-        _positionArr = positionTemp;
-        [_positionArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj;
-
-            NSLog(@"position = %@ ,index = %d",model1.position,idx);
-        }];
-        
-//        NSLog(@"_positionArr = %@", _positionArr);
         
         // 4 mobile_app_groups
         NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
@@ -505,34 +497,34 @@ static NSInteger page = 0;//下拉刷新的次数
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row < (1+8)*5  && (indexPath.row + 1) % 5 == 0 ) {
-//        if (indexPath.row == 4) {
-//            //超级大牌 cell
-//            SuperBrandTableViewCell *cell = [SuperBrandTableViewCell cellWithTableView:tableView];
-//            SuperBrandDataModel *superModel = self.goodslistMArr[indexPath.row];
-//            [cell fillCellWithModel:superModel];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            cell.backgroundColor = RGBCOLOR(240, 240, 240);
-//            return cell;
-//            
-//        }else {
-//            //recommend cell
-//            OthersTableViewCell *cell = [OthersTableViewCell cellWithTableView:tableView];
-//            RecommendSubjectsModel *recommendModel = self.goodslistMArr[indexPath.row];
-//            [cell fillCellWithModel:recommendModel];
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            cell.backgroundColor = RGBCOLOR(240, 240, 240);
-//            return cell;
-//        }
-//    
-//    }else{
+    if (indexPath.row < (1+8)*5  && (indexPath.row + 1) % 5 == 0 ) {
+        if (indexPath.row == 4) {
+            //超级大牌 cell
+            SuperBrandTableViewCell *cell = [SuperBrandTableViewCell cellWithTableView:tableView];
+            SuperBrandDataModel *superModel = self.goodslistMArr[indexPath.row];
+            [cell fillCellWithModel:superModel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = RGBCOLOR(240, 240, 240);
+            return cell;
+            
+        }else {
+            //recommend cell
+            OthersTableViewCell *cell = [OthersTableViewCell cellWithTableView:tableView];
+            RecommendSubjectsModel *recommendModel = self.goodslistMArr[indexPath.row];
+            [cell fillCellWithModel:recommendModel];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = RGBCOLOR(240, 240, 240);
+            return cell;
+        }
+    
+    }else{
         //GoodsList cell
         GoodsListTableViewCell *cell = [GoodsListTableViewCell cellWithTableView:tableView];
         [cell fillCellWithModel:self.goodslistMArr[indexPath.row]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = RGBCOLOR(240, 240, 240);
         return cell;
-//    }
+    }
     
 }
 
@@ -598,30 +590,28 @@ static NSInteger page = 0;//下拉刷新的次数
         });
     }];
 }
+#pragma mark - 创建用来缓存图片的文件夹
 
-
-//#pragma mark - 创建用来缓存图片的文件夹
-//
-//- (void)setupCacheFolder{
-//    
-//    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
-//    BOOL isDir = NO;
-//    BOOL isExsit = [[NSFileManager defaultManager] fileExistsAtPath:cache isDirectory:&isDir];
-//    if (!isDir || !isExsit) {
-//        [[NSFileManager defaultManager] createDirectoryAtPath:cache withIntermediateDirectories:YES attributes:nil error:nil];
-//    }
-//    
-//}
-//#pragma mark - 清除沙盒中的图片缓存
-//- (void)clearDiskCache {
-//    
-//    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
-//    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cache error:NULL];
-//    for (NSString *fileName in contents) {
-//        [[NSFileManager defaultManager] removeItemAtPath:[cache stringByAppendingPathComponent:fileName] error:nil];
-//    }
-//    
-//}
+- (void)setupCacheFolder{
+    
+    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+    BOOL isDir = NO;
+    BOOL isExsit = [[NSFileManager defaultManager] fileExistsAtPath:cache isDirectory:&isDir];
+    if (!isDir || !isExsit) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:cache withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+}
+#pragma mark - 清除沙盒中的图片缓存
+- (void)clearDiskCache {
+    
+    NSString *cache = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"MACarousel"];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:cache error:NULL];
+    for (NSString *fileName in contents) {
+        [[NSFileManager defaultManager] removeItemAtPath:[cache stringByAppendingPathComponent:fileName] error:nil];
+    }
+    
+}
 /*
 #pragma mark - Navigation
 
