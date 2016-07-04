@@ -17,8 +17,7 @@
 #import "GroupBuyView.h"
 #import "MItemCollectionViewCell.h"
 #import "CollectionItemModel.h"
-#import "SuperBrandTableViewCell.h"
-#import "OthersTableViewCell.h"
+#import "IMYAOPDemo.h"
 
 static NSString *collectionID = @"MItem";
 static NSInteger page = 0;//下拉刷新的次数
@@ -41,6 +40,8 @@ static NSInteger page = 0;//下拉刷新的次数
 @property (nonatomic, strong) NSArray *itemArray;//collectionView 的数据源
 @property (nonatomic, strong) UIView *headerView;//tableView 的headerView
 @property (nonatomic, strong) UIButton *backToTopBtn;
+
+@property (nonatomic, strong) IMYAOPDemo *aopDemo;
 
 @end
 
@@ -241,8 +242,8 @@ static NSInteger page = 0;//下拉刷新的次数
 - (void)getGoodListData{
     NSString *urlGoods = @"http://apiv2.yangkeduo.com/v2/goods?";
     NSDictionary *dic = @{@"size":@"50", @"page":@"1"};
-    [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(id obj) {
-//        NSInteger k = 0 ;//记录数组插入元素的个数 0：首次插入 1：第二次插入 依次类推。。。
+    [[NetworkHelper sharedManager] getWithURL:urlGoods WithParmeters:dic compeletionWithBlock:^(id obj)
+    {
         NSLog(@"---getGoodListData--- obj = %@",obj);
         NSDictionary *dataDic = obj;
         NSMutableArray *positionTemp = [NSMutableArray array];
@@ -284,16 +285,11 @@ static NSInteger page = 0;//下拉刷新的次数
     
             [positionTemp addObject:recommendModel];
             
-            //DEBUG 所需
-            {
-                NSInteger insertIndex = [subjectModel.position integerValue];
-                NSLog(@"inserIndex : %ld", (long)insertIndex);
-            }
-            
-//            NSInteger inserIndex = [subjectModel.position integerValue] +k;
-//            NSLog(@"inserIndex : %ld", (long)inserIndex);
-//            [_goodslistMArr insertObject:recommendModel atIndex:inserIndex];
-//            k ++;
+//            //DEBUG 所需
+//            {
+//                NSInteger insertIndex = [subjectModel.position integerValue];
+//                NSLog(@"inserIndex : %ld", (long)insertIndex);
+//            }
         }
         
         //-------------------------------------------------------------------------------
@@ -321,49 +317,24 @@ static NSInteger page = 0;//下拉刷新的次数
             [_superbrandMArr addObject:superbrandModel];
     
             [positionTemp addObject:superbrandModel];
-            
-            
-            
-//            NSInteger inserIndex = [subjectModel.position integerValue];
-//            NSLog(@"inserIndex : %ld", (long)inserIndex);
-//            [_goodslistMArr insertObject:superbrandModel atIndex:inserIndex];
         }
         
-
-
         [positionTemp sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
          
             SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj1;
             SuperBrandDataModel *model2 = (SuperBrandDataModel *)obj2;
             return ([model1.position intValue] > [model2.position intValue])?1:-1;
             
-//            if ([model1.position compare:model2.position] == NSOrderedAscending) {
-//                
-//                return NSOrderedAscending;
-//            }
-//            else if ([model1.position compare:model2.position] == NSOrderedDescending) {
-//                
-//                return NSOrderedDescending;
-//            }
-//            else
-//            {
-//                return NSOrderedSame;
-//            }
-            
-            
-            
         }];
-        
-        
         _positionArr = positionTemp;
+        
         [_positionArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj;
-
-            NSLog(@"position = %@ ,index = %d",model1.position,idx);
+            //NSLog(@"position = %@ ,index = %d",model1.position,idx);
         }];
         
-//        NSLog(@"_positionArr = %@", _positionArr);
+        
         
         // 4 mobile_app_groups
         NSArray *arrmobile_app_groups = [dataDic objectForKey:@"mobile_app_groups"];
@@ -377,6 +348,16 @@ static NSInteger page = 0;//下拉刷新的次数
         BLOCK_EXEC(self.groupBuyView.block, _mobileappgroupsMArr[0]);
         
         [self.mainTableView reloadData];
+        
+        //加入广告流
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            self.aopDemo = [IMYAOPDemo new];
+            UITableView* adTableView = [self valueForKey:@"mainTableView"];
+            self.aopDemo.dataArr = _positionArr;
+            self.aopDemo.aopUtils = adTableView.aop_utils;
+            
+        });
         
     }];
 }

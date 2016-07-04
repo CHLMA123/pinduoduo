@@ -48,7 +48,7 @@ static NSString *cellID = @"otherItem";
 
 
 
-- (void)fillCellWithModel:(RecommendSubjectsModel *)model{
+- (void)fillCellWithModel:(SuperBrandDataModel *)model{
     
     _subjectModel = model.goodSubjectModel;
     _goodsListArr = model.goodlistArr;

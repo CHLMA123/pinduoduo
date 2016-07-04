@@ -7,21 +7,34 @@
 //
 
 #import "IMYAOPDemo.h"
+#import "SuperBrandTableViewCell.h"
+#import "OthersTableViewCell.h"
 
 @interface IMYAOPDemo () <IMYAOPTableViewDelegate, IMYAOPTableViewDataSource>
 
+@property (nonatomic, strong) NSMutableArray *positonArr;
+
 @end
+
 @implementation IMYAOPDemo
 - (void)setAopUtils:(IMYAOPTableViewUtils *)aopUtils
 {
     _aopUtils = aopUtils;
     [self injectTableView];
 }
+
+- (NSMutableArray *)positonArr
+{
+    if (!_positonArr) {
+        _positonArr = [NSMutableArray array];
+    }
+    return _positonArr;
+}
+
+
 - (void)injectTableView
 {
-    [self.aopUtils.tableView registerClass:[UITableViewCell class]  forCellReuseIdentifier:@"AD"];
-
-    ///广告回调，跟TableView的Delegate，DataSource 一样。
+    //广告回调，跟TableView的Delegate，DataSource 一样。
     self.aopUtils.delegate = self;
     self.aopUtils.dataSource = self;
     
@@ -29,20 +42,25 @@
         [self insertRows];
     });
 }
-///简单的rows插入
+//简单的rows插入
 - (void)insertRows
 {
     NSMutableArray<IMYAOPTableViewInsertBody*>* insertBodys = [NSMutableArray array];
-    //数组中对应Cell插入的位置 数组元素是字典 key是Cell的重用标识符 值是位置
-    NSArray *arr = @[@"2",@"4",@"7"];
-    for (int i = 0 ; i< 3; i++) {
+    //随机生成了5个要插入的位置
+    [self.dataArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+    {
+        SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj;
+        NSLog(@"position = %@ ,index = %d",model1.position,idx);
+        [self.positonArr addObject:model1.position];
+    }];
+    NSArray *arr = _positonArr;
+
+    for (int i = 0 ; i< arr.count; i++) {
         NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[arr[i] intValue] inSection:0];
         
         [insertBodys addObject:[IMYAOPTableViewInsertBody insertBodyWithIndexPath:indexPath]];
     }
-    
 
-    
     ///清空 旧数据
     [self.aopUtils insertWithSections:nil];
     [self.aopUtils insertWithIndexPaths:nil];
@@ -89,32 +107,39 @@
 #pragma mark- UITableView 回调
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"AD"];
-    if(cell.contentView.subviews.count == 0) {
-        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        CGFloat imageHeight = 162 * (screenWidth/320.0f);
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, imageHeight)];
-        imageView.image = [UIImage imageNamed:@"aop_ad_image.jpeg"];
-        imageView.layer.borderColor = [UIColor blackColor].CGColor;
-        imageView.layer.borderWidth = 1;
-        [cell.contentView addSubview:imageView];
-        
-        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(200, 100, 200, 50)];
-        label.text = @"不要脸的广告!";
-        [cell.contentView addSubview:label];
+    NSString *cellID = nil;
+    SuperBrandDataModel *superModel = [[SuperBrandDataModel alloc] init];
+    
+    for (NSInteger k = 0; k < _positonArr.count; k ++) {
+        if (indexPath.row == [_positonArr[k] integerValue]) {
+            superModel = _dataArr[k];
+        }
     }
-    return cell;
+    
+    cellID = superModel.cellIdentifier;
+    if ([cellID isEqualToString:@"superbrand"]) {
+        SuperBrandTableViewCell *cell = [SuperBrandTableViewCell cellWithTableView:tableView];
+        [cell fillCellWithModel:superModel];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = RGBCOLOR(240, 240, 240);
+        return cell;
+    }else{
+        OthersTableViewCell *cell = [OthersTableViewCell cellWithTableView:tableView];
+        [cell fillCellWithModel:superModel];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = RGBCOLOR(240, 240, 240);
+        return cell;
+    }
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat imageHeight = 162 * (screenWidth/320.0f);
-    return imageHeight;
+    return 360;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"插入的cell要显示啦");
+    NSLog(@"插入的cell要显示啦 : = %ld", (long)indexPath.row);
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

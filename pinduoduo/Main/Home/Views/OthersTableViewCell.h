@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RecommendSubjectsModel.h"
+#import "SuperBrandDataModel.h"
 
 @interface OthersTableViewCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
-- (void)fillCellWithModel:(RecommendSubjectsModel *)model;
+- (void)fillCellWithModel:(SuperBrandDataModel *)model;
 
 @end

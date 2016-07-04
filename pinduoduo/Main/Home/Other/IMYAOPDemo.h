@@ -10,4 +10,5 @@
 #import "IMYAOPTableView.h"
 @interface IMYAOPDemo : NSObject
 @property (weak, nonatomic) IMYAOPTableViewUtils *aopUtils;
+@property (nonatomic, strong) NSArray *dataArr;
 @end
