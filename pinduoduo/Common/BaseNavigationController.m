@@ -36,6 +36,13 @@
         [self createrightBarItemWithViewController:viewController];
     }
     [self setTabBarState];
+//    if (self.childViewControllers.count > 0) {
+//        
+//        /* 自动显示和隐藏tabbar */
+//        viewController.hidesBottomBarWhenPushed = YES;
+//        
+//    }
+
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated{
