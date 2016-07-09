@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupChildControllers];
+    [self addChildViewControllers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,25 +31,47 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupChildControllers{
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"首页" tabBarImageName:@"home" rootViewControllerClass:[HomeViewController class] rootViewControllerTitle:@"拼多多商城"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"热榜" tabBarImageName:@"hotlist" rootViewControllerClass:[HotListViewController class] rootViewControllerTitle:@"排行榜"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"海淘" tabBarImageName:@"SuperBrand" rootViewControllerClass:[SuperBrandViewController class] rootViewControllerTitle:@"海淘专区"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"搜索" tabBarImageName:@"search" rootViewControllerClass:[SearchViewController class] rootViewControllerTitle:@"拼多多商城"];
-    [self setupChildNavigationControllerWithClass:[BaseNavigationController class] tabBarTitleName:@"个人中心" tabBarImageName:@"person" rootViewControllerClass:[PersonalViewController class] rootViewControllerTitle:@"个人中心"];
+- (void)addChildViewControllers{
+    
+    [self addChildViewController:[[HomeViewController alloc] init] TitleName:@"拼多多商城" tabBarTitleName:@"首页" tabBarImageName:@"home"];
+    [self addChildViewController:[[HotListViewController alloc] init] TitleName:@"排行榜" tabBarTitleName:@"热榜" tabBarImageName:@"hotlist"];
+    [self addChildViewController:[[SuperBrandViewController alloc] init] TitleName:@"海淘专区" tabBarTitleName:@"海淘" tabBarImageName:@"SuperBrand"];
+    [self addChildViewController:[[SearchViewController alloc] init] TitleName:@"拼多多商城" tabBarTitleName:@"搜索" tabBarImageName:@"search"];
+    [self addChildViewController:[[PersonalViewController alloc] init] TitleName:@"个人中心" tabBarTitleName:@"个人中心" tabBarImageName:@"person"];
+    
 }
 
-- (void)setupChildNavigationControllerWithClass:(Class)class tabBarTitleName:(NSString *)tabName tabBarImageName:(NSString *)imageName rootViewControllerClass:(Class)rootViewControllerClass rootViewControllerTitle:(NSString *)title
+-(void)addChildViewController:(UIViewController *)VC
+                    TitleName:(NSString *)titleName
+              tabBarTitleName:(NSString *)tabBarTitleName
+              tabBarImageName:(NSString *)tabBarImageName
 {
-    UIViewController *rootVC = [[rootViewControllerClass alloc] init];
-    rootVC.title = title;
-    UINavigationController *Nav = [[class alloc] initWithRootViewController:rootVC];
-    Nav.tabBarItem.title = tabName;
-    UIImage *img = [UIImage imageNamed:imageName];
-    UIImage *selimg = [UIImage imageNamed:[NSString stringWithFormat:@"%@",imageName]];
-    Nav.tabBarItem.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    Nav.tabBarItem.selectedImage = [selimg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    VC.title = titleName;
     
+    VC.tabBarItem.title = tabBarTitleName;
+    // 修改标题位置
+    self.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -5);
+    
+    UIImage *img = [UIImage imageNamed:tabBarImageName];
+    UIImage *selimg = [UIImage imageNamed:[NSString stringWithFormat:@"%@",tabBarImageName]];
+    VC.tabBarItem.image = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    VC.tabBarItem.selectedImage = [selimg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    // 设置选中和未选中字体颜色
+    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
+    //未选中字体颜色
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateNormal];
+    
+    //选中字体颜色
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} forState:UIControlStateSelected];
+    
+    //修改字体属性
+//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                      [UIFont fontWithName:@"Helvetica" size:17.0], NSFontAttributeName, nil]
+//                            forState:UIControlStateNormal];
+    
+    BaseNavigationController *Nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
     [self addChildViewController:Nav];
     
 }

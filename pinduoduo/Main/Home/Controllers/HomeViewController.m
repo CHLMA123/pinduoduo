@@ -19,6 +19,8 @@
 #import "CollectionItemModel.h"
 #import "IMYAOPDemo.h"
 
+#import "OtherViewController.h"
+
 static NSString *collectionID = @"MItem";
 static NSInteger page = 0;//下拉刷新的次数
 
@@ -26,7 +28,7 @@ static NSInteger page = 0;//下拉刷新的次数
 
 @property (nonatomic, strong) UIScrollView *homeScrollView;
 @property (nonatomic, strong) UIPageControl *pageControl;
-@property (nonatomic, strong) UITableView *mainTableView;
+@property (nonatomic, strong) UITableView *mainTabv;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSMutableArray *subjectModelMArr;// 轮播数据源
 @property (nonatomic, strong) NSMutableArray *goodslistMArr;// goods_list
@@ -68,6 +70,16 @@ static NSInteger page = 0;//下拉刷新的次数
     [self setupCollectionData];
     [self getNetworkData];
     [self setupView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(makeTestAction)];
+    tap.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:tap];
+}
+
+- (void)makeTestAction{
+    
+    OtherViewController *other = [[OtherViewController alloc] init];
+    [self.navigationController pushViewController:other animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,18 +91,18 @@ static NSInteger page = 0;//下拉刷新的次数
     
     [self setupTableHeaserView];
     
-    self.mainTableView = [[UITableView alloc] init];
-    _mainTableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    _mainTableView.delegate = self;
-    _mainTableView.dataSource = self;
-    _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _mainTableView.tag = 2001;
-    self.mainTableView.tableHeaderView = _headerView;
+    self.mainTabv = [[UITableView alloc] init];
+    _mainTabv.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    _mainTabv.delegate = self;
+    _mainTabv.dataSource = self;
+    _mainTabv.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _mainTabv.tag = 2001;
+    self.mainTabv.tableHeaderView = _headerView;
     
-    _mainTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    _mainTabv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self reloadMoreData];
     }];
-    [self.view addSubview:self.mainTableView];
+    [self.view addSubview:self.mainTabv];
     
     self.backToTopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _backToTopBtn.frame = CGRectMake(SCREEN_WIDTH - 50, SCREEN_HEIGHT - 200, 40, 40);
@@ -105,11 +117,12 @@ static NSInteger page = 0;//下拉刷新的次数
     [_backToTopBtn setTitleEdgeInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
     [_backToTopBtn addTarget:self action:@selector(backToTopAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_backToTopBtn];
+
 }
 
 - (void)backToTopAction{
     
-    self.mainTableView.contentOffset = CGPointZero;
+    self.mainTabv.contentOffset = CGPointZero;
     _backToTopBtn.hidden = YES;
 }
 
@@ -347,15 +360,15 @@ static NSInteger page = 0;//下拉刷新的次数
         
         BLOCK_EXEC(self.groupBuyView.block, _mobileappgroupsMArr[0]);
         
-        [self.mainTableView reloadData];
+        [self.mainTabv reloadData];
         
         //加入广告流
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             self.aopDemo = [IMYAOPDemo new];
-            UITableView* adTableView = [self valueForKey:@"mainTableView"];
+            UITableView* adTableView = [self valueForKey:@"mainTabv"];
             self.aopDemo.dataArr = _positionArr;
-            self.aopDemo.aopUtils = adTableView.aop_utils;
+//            self.aopDemo.aopUtils = adTableView.aop_utils; //出错原因待定位。。。
             
         });
         
@@ -574,8 +587,8 @@ static NSInteger page = 0;//下拉刷新的次数
         NSLog(@"刷新后 _goodslistMArr=%lu",(unsigned long)_goodslistMArr.count);
         dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^{
             
-            [self.mainTableView reloadData];
-            [self.mainTableView.mj_footer endRefreshing];
+            [self.mainTabv reloadData];
+            [self.mainTabv.mj_footer endRefreshing];
         });
     }];
 }

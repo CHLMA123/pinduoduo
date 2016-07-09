@@ -290,6 +290,7 @@
 		36BE961C1D17C64A0068425B /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE960B1D17C64A0068425B /* UIImageView+WebCache.m */; };
 		36BE961D1D17C64A0068425B /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE960D1D17C64A0068425B /* UIView+WebCacheOperation.m */; };
 		36E8586D1D1BE1C100B1A882 /* SuperBrandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E8586C1D1BE1C100B1A882 /* SuperBrandView.m */; };
+		36EB52DF1D30D2D20096432E /* OtherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB52DE1D30D2D20096432E /* OtherViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -698,6 +699,8 @@
 		36BE960D1D17C64A0068425B /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		36E8586B1D1BE1C100B1A882 /* SuperBrandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperBrandView.h; sourceTree = "<group>"; };
 		36E8586C1D1BE1C100B1A882 /* SuperBrandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperBrandView.m; sourceTree = "<group>"; };
+		36EB52DD1D30D2D20096432E /* OtherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherViewController.h; sourceTree = "<group>"; };
+		36EB52DE1D30D2D20096432E /* OtherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -932,6 +935,8 @@
 				366C47A21D13FE1900BE790E /* Personal */,
 				366C47A61D13FE1900BE790E /* Search */,
 				366C47AA1D13FE1900BE790E /* SuperBrand */,
+				36EB52DD1D30D2D20096432E /* OtherViewController.h */,
+				36EB52DE1D30D2D20096432E /* OtherViewController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1953,6 +1958,7 @@
 				36B184721D15474D004D8382 /* SuperBrandDataModel.m in Sources */,
 				36B184911D154A74004D8382 /* UIWebView+AFNetworking.m in Sources */,
 				366C47901D13DF8A00BE790E /* MASLayoutConstraint.m in Sources */,
+				36EB52DF1D30D2D20096432E /* OtherViewController.m in Sources */,
 				36B1848E1D154A74004D8382 /* UIImageView+AFNetworking.m in Sources */,
 				36BE96101D17C64A0068425B /* SDImageCache.m in Sources */,
 				366C46E01D13DF8A00BE790E /* UIImage+Resize.m in Sources */,

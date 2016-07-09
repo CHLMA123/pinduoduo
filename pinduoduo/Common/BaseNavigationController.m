@@ -20,8 +20,17 @@
     // Do any additional setup after loading the view.
     NSDictionary *attriDic = @{NSFontAttributeName:[UIFont systemFontOfSize:21],NSForegroundColorAttributeName:[UIColor blackColor]};
     [self.navigationBar setTitleTextAttributes:attriDic];
-    
-    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] andSize:CGSizeMake(SCREEN_WIDTH, 65)] forBarMetrics:UIBarMetricsDefault];
+    self.navigationBar.barTintColor = [UIColor redColor];
+//    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor orangeColor] andSize:CGSizeMake(SCREEN_WIDTH, 65)] forBarMetrics:UIBarMetricsDefault];//作用同上句
+//    [self setStatusColor];
+}
+
+//设置状态栏背景为任意的颜色
+- (void)setStatusColor
+{
+    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, 20)];
+    statusBarView.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:statusBarView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,8 +41,9 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [super pushViewController:viewController animated:animated];
     if (self.viewControllers.count > 1) {
-        [self createBackBarItemWithViewController:viewController];
-        [self createrightBarItemWithViewController:viewController];
+        
+        [self createBackBarItemWithViewController:viewController];//BackBarItem
+        [self createrightBarItemWithViewController:viewController];//rightBarItem
     }
     [self setTabBarState];
 //    if (self.childViewControllers.count > 0) {
@@ -81,22 +91,10 @@
 //    self.navigationBar.tintColor = [UIColor blackColor];//系统返回的箭头颜色定制
     
     self.navigationItem.hidesBackButton = YES;
-    
-//    UIControl *backItem = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, 41.f, 21.f)];
-//    backItem.backgroundColor = CLEARCOLOR;
-//    [backItem addTarget:self action:@selector(backToParentView) forControlEvents:UIControlEventTouchUpInside];
-//    UIImageView *backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 30)];
-//    backImageView.image = [UIImage imageNamed:@"btn_backItem"];
-//    [backImageView setContentMode:UIViewContentModeScaleAspectFit];
-//    backImageView.frame = CGRectMake(0, (CGRectGetHeight(backItem.frame)- CGRectGetHeight(backImageView.frame))*0.5, CGRectGetWidth(backImageView.frame), CGRectGetHeight(backImageView.frame));
-//    [backItem addSubview:backImageView];
-    
     UIButton *backItem = [UIButton buttonWithType:UIButtonTypeCustom];
     backItem.frame = CGRectMake(0, 6, 32.f, 32.f);
     [backItem setImage:[UIImage imageNamed:@"btn_backItem"] forState:UIControlStateNormal];
     [backItem addTarget:self action:@selector(backToParentView) forControlEvents:UIControlEventTouchUpInside];
-//    [backItem setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 18)];
-    
     UIBarButtonItem *lBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backItem];
     viewController.navigationItem.leftBarButtonItem = lBarButtonItem;
     

@@ -35,13 +35,13 @@
     [self registerReachability];
     
 #pragma mark - 后台播放三 ------
-    // 设置音频会话
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    // 后台播放
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    // 单独播放一个后台程序
-    [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
-    [session setActive:YES error:nil];
+//    // 设置音频会话
+//    AVAudioSession *session = [AVAudioSession sharedInstance];
+//    // 后台播放
+//    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+//    // 单独播放一个后台程序
+//    [session setCategory:AVAudioSessionCategorySoloAmbient error:nil];
+//    [session setActive:YES error:nil];
     
     return YES;
 }
@@ -71,13 +71,13 @@
 // 002、失去焦点
 - (void)applicationWillResignActive:(UIApplication *)application {
 //    NSURL *url = [[NSBundle mainBundle] pathForResource:@"silence" ofType:@"mp3"];
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"silence.mp3" withExtension:nil];
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
-    [player prepareToPlay];
-    // 无限播放
-    player.numberOfLoops = -1;
-    [player play];
-    _player = player;
+//    NSURL *url = [[NSBundle mainBundle] URLForResource:@"silence.mp3" withExtension:nil];
+//    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+//    [player prepareToPlay];
+//    // 无限播放
+//    player.numberOfLoops = -1;
+//    [player play];
+//    _player = player;
     
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

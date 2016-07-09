@@ -50,14 +50,14 @@
     [self.dataArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
     {
         SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj;
-        NSLog(@"position = %@ ,index = %d",model1.position,idx);
+        NSLog(@" --00000-- position = %@ ,index = %lu",model1.position,(unsigned long)idx);
         [self.positonArr addObject:model1.position];
     }];
     NSArray *arr = _positonArr;
 
     for (int i = 0 ; i< arr.count; i++) {
-        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[arr[i] intValue] inSection:0];
         
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[arr[i] intValue] inSection:0];
         [insertBodys addObject:[IMYAOPTableViewInsertBody insertBodyWithIndexPath:indexPath]];
     }
 
