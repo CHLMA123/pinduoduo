@@ -100,9 +100,10 @@ static NSInteger page = 0;//下拉刷新的次数
     _mainTabv.tag = 2001;
     self.mainTabv.tableHeaderView = _headerView;
     
-    _mainTabv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        [self reloadMoreData];
-    }];
+//    _mainTabv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+//        [self reloadMoreData];
+//    }];
+    
     [self.view addSubview:self.mainTabv];
     
     self.backToTopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -369,7 +370,7 @@ static NSInteger page = 0;//下拉刷新的次数
             self.aopDemo = [IMYAOPDemo new];
             UITableView* adTableView = [self valueForKey:@"mainTabv"];
             self.aopDemo.dataArr = _positionArr;
-//            self.aopDemo.aopUtils = adTableView.aop_utils; //出错原因待定位。。。
+            self.aopDemo.aopUtils = adTableView.aop_utils; //出错原因待定位。。。
             
         });
         
