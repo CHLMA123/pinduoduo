@@ -15,6 +15,7 @@
 		3635A6EE1D27BA1600AD0A71 /* IMYAOPTableViewUtils+Proxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3635A6E61D27BA1600AD0A71 /* IMYAOPTableViewUtils+Proxy.m */; };
 		3635A6EF1D27BA1600AD0A71 /* IMYAOPTableViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3635A6E81D27BA1600AD0A71 /* IMYAOPTableViewUtils.m */; };
 		3635A6F31D27BAA400AD0A71 /* IMYAOPDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3635A6F21D27BAA400AD0A71 /* IMYAOPDemo.m */; };
+		364CAF4C1D35CD5D00FE6EA4 /* CommonDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 364CAF4B1D35CD5D00FE6EA4 /* CommonDataModel.m */; };
 		366C45C01D13DA3300BE790E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45BF1D13DA3300BE790E /* main.m */; };
 		366C45C31D13DA3300BE790E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45C21D13DA3300BE790E /* AppDelegate.m */; };
 		366C45C61D13DA3300BE790E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C45C51D13DA3300BE790E /* ViewController.m */; };
@@ -313,6 +314,8 @@
 		3635A6E91D27BA1600AD0A71 /* IMYAOPTableViewUtilsDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMYAOPTableViewUtilsDefine.h; sourceTree = "<group>"; };
 		3635A6F11D27BAA400AD0A71 /* IMYAOPDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMYAOPDemo.h; sourceTree = "<group>"; };
 		3635A6F21D27BAA400AD0A71 /* IMYAOPDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMYAOPDemo.m; sourceTree = "<group>"; };
+		364CAF4A1D35CD5D00FE6EA4 /* CommonDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonDataModel.h; sourceTree = "<group>"; };
+		364CAF4B1D35CD5D00FE6EA4 /* CommonDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonDataModel.m; sourceTree = "<group>"; };
 		366C45BB1D13DA3300BE790E /* pinduoduo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pinduoduo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		366C45BF1D13DA3300BE790E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		366C45C11D13DA3300BE790E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -759,6 +762,17 @@
 				3635A6F21D27BAA400AD0A71 /* IMYAOPDemo.m */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		364CAF4D1D35CD9500FE6EA4 /* 被抛弃 暂时没用了的 */ = {
+			isa = PBXGroup;
+			children = (
+				36B1846D1D154157004D8382 /* RecommendSubjectsModel.h */,
+				36B1846E1D154157004D8382 /* RecommendSubjectsModel.m */,
+				36B184701D15474D004D8382 /* SuperBrandDataModel.h */,
+				36B184711D15474D004D8382 /* SuperBrandDataModel.m */,
+			);
+			name = "被抛弃 暂时没用了的";
 			sourceTree = "<group>";
 		};
 		366C45B21D13DA3300BE790E = {
@@ -1217,14 +1231,13 @@
 				36B184621D153DE4004D8382 /* GoodsSubjectModel.m */,
 				36B1846A1D154077004D8382 /* GoodsListDataModel.h */,
 				36B1846B1D154077004D8382 /* GoodsListDataModel.m */,
-				36B1846D1D154157004D8382 /* RecommendSubjectsModel.h */,
-				36B1846E1D154157004D8382 /* RecommendSubjectsModel.m */,
-				36B184701D15474D004D8382 /* SuperBrandDataModel.h */,
-				36B184711D15474D004D8382 /* SuperBrandDataModel.m */,
 				36B119241D1A320F00BE98AE /* MobileAppGroupsModel.h */,
 				36B119251D1A320F00BE98AE /* MobileAppGroupsModel.m */,
 				36B119331D1A798900BE98AE /* CollectionItemModel.h */,
 				36B119341D1A798900BE98AE /* CollectionItemModel.m */,
+				364CAF4A1D35CD5D00FE6EA4 /* CommonDataModel.h */,
+				364CAF4B1D35CD5D00FE6EA4 /* CommonDataModel.m */,
+				364CAF4D1D35CD9500FE6EA4 /* 被抛弃 暂时没用了的 */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1881,6 +1894,7 @@
 				36A2BD6A1D1CD1EF00B9EB38 /* MJRefreshGifHeader.m in Sources */,
 				366C45C61D13DA3300BE790E /* ViewController.m in Sources */,
 				366C46DF1D13DF8A00BE790E /* UIImage+Alpha.m in Sources */,
+				364CAF4C1D35CD5D00FE6EA4 /* CommonDataModel.m in Sources */,
 				36B184941D154A91004D8382 /* JSONKit.m in Sources */,
 				36BE96191D17C64A0068425B /* UIImage+MultiFormat.m in Sources */,
 				366C46DC1D13DF8A00BE790E /* BaseViewController.m in Sources */,
