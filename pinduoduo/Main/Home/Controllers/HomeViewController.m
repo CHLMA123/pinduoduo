@@ -45,6 +45,7 @@ static NSInteger page = 0;//下拉刷新的次数
 @property (nonatomic, strong) UIButton *backToTopBtn;
 
 @property (nonatomic, strong) IMYAOPDemo *aopDemo;
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -100,9 +101,18 @@ static NSInteger page = 0;//下拉刷新的次数
     _mainTabv.tag = 2001;
     self.mainTabv.tableHeaderView = _headerView;
     
+    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityView.hidden = NO;
+    _activityView.frame = CGRectMake(0, 0, 20, 20);
+    _activityView.color = [UIColor lightGrayColor];
+    self.mainTabv.tableFooterView = _activityView;
+    
+    
 //    _mainTabv.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
 //        [self reloadMoreData];
 //    }];
+    
+    
     
     [self.view addSubview:self.mainTabv];
     
@@ -410,6 +420,18 @@ static NSInteger page = 0;//下拉刷新的次数
     
     if (scrollView.tag == 2000) {
         [self startTimer];
+    }else{
+        //_mainTabv
+        
+        CGFloat contentHight = scrollView.contentSize.height;
+        CGFloat contentOffset = scrollView.contentOffset.y + scrollView.frame.size.height;
+        if (contentOffset > contentHight + 50) {
+            NSLog(@"shang拉数据。。。");
+            _activityView.hidden = NO;
+            [_activityView startAnimating];
+            [self reloadMoreData];
+        }
+        
     }
 }
 
@@ -590,7 +612,8 @@ static NSInteger page = 0;//下拉刷新的次数
         dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^{
             
             [self.mainTabv reloadData];
-            [self.mainTabv.mj_footer endRefreshing];
+//            [self.mainTabv.mj_footer endRefreshing];
+            [_activityView stopAnimating];
         });
     }];
 }
