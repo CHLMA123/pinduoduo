@@ -10,8 +10,8 @@
 #import "NetworkHelper.h"
 #import "GoodsSubjectModel.h"
 #import "GoodsListDataModel.h"
-#import "RecommendSubjectsModel.h"
-#import "SuperBrandDataModel.h"
+//#import "RecommendSubjectsModel.h"
+//#import "SuperBrandDataModel.h"
 #import "MobileAppGroupsModel.h"
 #import "GoodsListTableViewCell.h"
 #import "GroupBuyView.h"
@@ -20,6 +20,7 @@
 #import "IMYAOPDemo.h"
 
 #import "OtherViewController.h"
+#import "CommonDataModel.h"
 
 static NSString *collectionID = @"MItem";
 static NSInteger page = 0;//下拉刷新的次数
@@ -276,7 +277,7 @@ static NSInteger page = 0;//下拉刷新的次数
         NSArray *arrHome_recommend_subjects = [dataDic objectForKey:@"home_recommend_subjects"];
         for (int i = 0; i < arrHome_recommend_subjects.count; i ++) {
             NSDictionary *dic = arrHome_recommend_subjects[i];
-            SuperBrandDataModel *recommendModel = [[SuperBrandDataModel alloc] init];
+            CommonDataModel *recommendModel = [[CommonDataModel alloc] init];
             // 2.1 recommendModel.goodSubjectModel
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
             [subjectModel assginToPropertyWithDic:dic];
@@ -310,7 +311,7 @@ static NSInteger page = 0;//下拉刷新的次数
         NSDictionary *arrhome_super_brand = [dataDic objectForKey:@"home_super_brand"];
         {
             NSDictionary *dic = arrhome_super_brand;
-            SuperBrandDataModel *superbrandModel = [[SuperBrandDataModel alloc] init];
+            CommonDataModel *superbrandModel = [[CommonDataModel alloc] init];
             // 3.1 superbrandModel.goodSubjectModel
             GoodsSubjectModel *subjectModel = [[GoodsSubjectModel alloc] init];
             [subjectModel assginToPropertyWithDic:dic];
@@ -334,8 +335,8 @@ static NSInteger page = 0;//下拉刷新的次数
         
         [positionTemp sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
          
-            SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj1;
-            SuperBrandDataModel *model2 = (SuperBrandDataModel *)obj2;
+            CommonDataModel *model1 = (CommonDataModel *)obj1;
+            CommonDataModel *model2 = (CommonDataModel *)obj2;
             return ([model1.position intValue] > [model2.position intValue])?1:-1;
             
         }];
@@ -343,7 +344,7 @@ static NSInteger page = 0;//下拉刷新的次数
         
         [_positionArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            SuperBrandDataModel *model1 = (SuperBrandDataModel *)obj;
+            CommonDataModel *model1 = (CommonDataModel *)obj;
             //NSLog(@"position = %@ ,index = %d",model1.position,idx);
         }];
         
