@@ -106,45 +106,18 @@ static Class kIMYTVAOPClass;
         }
     }
     object_setClass(tableView, aopClass);
-    
-    
-    // 添加新的KVO
+    ///添加新的KVO
     for (id observance in observances) {
-        
         NSString* keyPath = [observance valueForKeyPath:@"_property._keyPath"];
         id observer = [observance valueForKey:@"_observer"];
         if (observer && keyPath) {
-            
-            
-            {
-              unsigned count = 0;
-              Ivar *ivars = class_copyIvarList([observance class], &count);
-            
-            for (int i = 0; i<count; i++) {
-                
-                Ivar ivar = ivars[i];
-                const char *ivaName  = ivar_getName(ivar);
-                
-                NSString *ivarNameOC = [NSString stringWithUTF8String:ivaName];
-                NSLog(@"ivarNameOc = %@ ",ivarNameOC);
-            }
-            NSLog(@"adasda");
-            free(ivars);
-            }
-
-            
             NSKeyValueObservingOptions options = [[observance valueForKey:@"_options"] unsignedIntegerValue];
-            
-            
-            
             if (options == 0) {
                 options = (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew);
             }
             [tableView addObserver:observer forKeyPath:keyPath options:options context:nil];
         }
     }
-    
-    
 }
 - (void)insertWithSections:(NSArray<IMYAOPTableViewInsertBody*>*)insertSections
 {
